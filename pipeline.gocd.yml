@@ -1,0 +1,39 @@
+format_version: 2
+environments:
+  ci:
+    pipelines:
+      - "team1UI"
+      
+pipelines:
+  "team1UI":
+    group: team1
+    materials:
+      ui:
+        git: "provide git url here"
+    stages:
+      - test:
+          jobs:
+            test:
+              resources:
+                - node-and-java
+              tasks:
+                - script: |
+                    yarn install
+                    yarn run ci
+      - build:
+          jobs:
+            build:
+              resources:
+                - node-and-java
+              tasks:
+                - script: |
+                    yarn install
+                    yarn run build              
+      - deploy:
+           jobs:
+            deploy:
+              resources:
+                - node-and-java
+              tasks:
+                - script: |
+                    sh ./buildAndDeploy/deploy.sh team1-bootcamp-june2018
