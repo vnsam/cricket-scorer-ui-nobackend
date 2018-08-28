@@ -13,18 +13,17 @@ describe('over', () => {
     };
   }
 
-
   it('should add a ball to the over', () => {
     const over = new Over();
     const ballOne = ball(BALL_TYPE_REGULAR, 3, 3, 0, false);
     over.addBall(ballOne)
 
     const expectedState = {
-      currentBallPlayed: ball,
+      currentBallPlayed: ballOne,
       currentOver: over
     };
 
-    expect(JSON.stringify(OverReducer({currentBallPlayed: ball}, ballPlayedAction()))).toEqual(JSON.stringify(expectedState));
+    expect(JSON.stringify(OverReducer({currentBallPlayed: ballOne}, ballPlayedAction()))).toEqual(JSON.stringify(expectedState));
   });
 
   it('should update the new balls to the same over', () => {
