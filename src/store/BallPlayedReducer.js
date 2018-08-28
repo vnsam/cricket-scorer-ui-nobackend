@@ -17,7 +17,6 @@ const initialState = {
   extrasSelected: '',
 };
 
-
 const BallPlayedReducer = (state = initialState, action) => {
   switch (action.type) {
     case 'EXTRAS':

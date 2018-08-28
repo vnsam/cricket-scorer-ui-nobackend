@@ -1,5 +1,5 @@
 import Over from '../model/over';
-import { ACTION_BALL_PLAYED, BALL_TYPE_NO_BALL } from '../store/BallPlayedReducer';
+import { ACTION_BALL_PLAYED, BALL_TYPE_NO_BALL } from '../store/BallResultReducer';
 
 function ball(type, playerRuns, teamRuns, extraBall, out) {
   return {
