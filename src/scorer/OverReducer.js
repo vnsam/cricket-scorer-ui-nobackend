@@ -1,14 +1,16 @@
-import Over from "../model/over";
-import { ACTION_BALL_PLAYED } from '../store/BallPlayedReducer.js';
+import Over from '../model/over';
+import { ACTION_BALL_PLAYED } from '../store/BallPlayedReducer';
 
 const overReducer = (state, action) => {
   switch (action.type) {
-    case ACTION_BALL_PLAYED.type:
-      let currentOver = state.currentOver ? Object.assign({}, state.currentOver) : new Over();
+    case ACTION_BALL_PLAYED.type: {
+      const currentOver = state.currentOver ? Object.assign({}, state.currentOver) : new Over();
       currentOver.addBall(state.currentBallPlayed);
-      return {...state, currentOver: currentOver};
+      return { ...state };
+    }
+    default:
+      return state;
   }
-  return state;
 };
 
 export default overReducer;

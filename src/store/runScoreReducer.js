@@ -1,29 +1,27 @@
 
- const initialState = {
+const initialState = {
   runScore: 0,
-  isSelected:'unselected'
+  isSelected: 'unselected',
 };
 
-export const UpdateCurrentRunScore =(runScore)=>({
-  type: 'CURRENT_RUN_SCORE',  
-  runScore: runScore
-  
+export const UpdateCurrentRunScore = runScore => ({
+  type: 'CURRENT_RUN_SCORE',
+  runScore,
 });
 
-export const runScoreAction =()=>({
+export const runScoreAction = () => ({
   type: 'ACTION_RUN_SCORE',
 });
 
-const runScoreReducer = (state=initialState,action) =>{
-  switch(action.type)
-  {
+const runScoreReducer = (state = initialState, action) => {
+  switch (action.type) {
     case 'CURRENT_RUN_SCORE':
-    return {...state,runScore:action.runScore};
+      return { ...state, runScore: action.runScore };
     case 'ACTION_RUN_SCORE':
-    console.log('this is from reducer')
-    return {...state,isSelected: state.isSelected==='selected'?'unselected':'selected'};
-    default:return state
+      console.log('this is from reducer');
+      return { ...state, isSelected: state.isSelected === 'selected' ? 'unselected' : 'selected' };
+    default: return state;
   }
-}
+};
 
 export default runScoreReducer;
