@@ -2,14 +2,14 @@ format_version: 2
 environments:
   ci:
     pipelines:
-      - "team1UI"
-      
+      - "team2UI"
+
 pipelines:
-  "team1UI":
-    group: team1
+  "team2UI":
+    group: team2
     materials:
       ui:
-        git: "provide git url here"
+        git: "https://github.com/vnsam/cricket-scorer-ui-nobackend.git"
     stages:
       - test:
           jobs:
@@ -28,12 +28,12 @@ pipelines:
               tasks:
                 - script: |
                     yarn install
-                    yarn run build              
+                    yarn run build
       - deploy:
-           jobs:
+          jobs:
             deploy:
               resources:
                 - node-and-java
               tasks:
                 - script: |
-                    sh ./buildAndDeploy/deploy.sh team1-bootcamp-june2018
+                    sh ./buildAndDeploy/deploy.sh team2-bootcamp-august2018
