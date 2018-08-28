@@ -1,8 +1,9 @@
 import React from 'react';
+import CurentScore from '../scorer/currentScore/CurrentScore';
 
 const NewGame = () => (
   <div>
-    This is the page where the New Game Details have to be entered
+    <CurentScore />
   </div>
 );
 
