@@ -25,7 +25,9 @@ describe('over', () => {
       currentOver: over,
     };
 
-    expect(JSON.stringify(OverReducer({ currentBallPlayed: ballOne }, ballPlayedAction()))).toEqual(JSON.stringify(expectedState));
+    expect(JSON.stringify(OverReducer({
+      currentBallPlayed: ballOne,
+    }, ballPlayedAction()))).toEqual(JSON.stringify(expectedState));
   });
 
   it('should update the new balls to the same over', () => {
@@ -39,7 +41,9 @@ describe('over', () => {
     };
 
     const currentOverState = Object.assign({}, over);
-    expect(JSON.stringify(OverReducer({ currentBallPlayed: ballOne }, ballPlayedAction()))).toEqual(JSON.stringify(expectedState));
+    expect(JSON.stringify(OverReducer({
+      currentBallPlayed: ballOne,
+    }, ballPlayedAction()))).toEqual(JSON.stringify(expectedState));
 
 
     const ballTwo = ball(BALL_TYPE_WIDE, 4, 12, 1, false);
@@ -49,6 +53,9 @@ describe('over', () => {
       currentBallPlayed: ballTwo,
       currentOver: over,
     };
-    expect(JSON.stringify(OverReducer({ currentBallPlayed: ballTwo, currentOver: currentOverState }, ballPlayedAction()))).toEqual(JSON.stringify(expectedState));
+    expect(JSON.stringify(OverReducer({
+      currentBallPlayed: ballTwo,
+      currentOver: currentOverState,
+    }, ballPlayedAction()))).toEqual(JSON.stringify(expectedState));
   });
 });
