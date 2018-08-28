@@ -5,7 +5,7 @@ import GameDetails from '../gameDetails/GameDetails';
 import Home from '../home/Home';
 import history from './history';
 import NewGame from '../newGame/NewGame';
-import { ExtrasConnectComponent } from '../scorer/Extras';
+import ExtrasConnectComponent from '../scorer/Extras';
 
 export const Routes = {
   HOME: '/',
