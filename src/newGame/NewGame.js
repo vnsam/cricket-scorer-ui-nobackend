@@ -1,9 +1,9 @@
 import React from 'react';
-import CurentScore from '../scorer/currentScore/CurrentScore';
+import ConnectedOverComponent from '../scorer/OverComponent';
 
 const NewGame = () => (
   <div>
-    <CurentScore />
+    <ConnectedOverComponent />
   </div>
 );
 

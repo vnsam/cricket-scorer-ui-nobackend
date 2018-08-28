@@ -1,9 +1,12 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 import Container from 'reactstrap/lib/Container';
 import Row from 'reactstrap/lib/Row';
 import Col from 'reactstrap/lib/Col';
 import { BALL_TYPE_WIDE, BALL_TYPE_REGULAR } from '../store/BallResultReducer';
+import Player from '../model/player';
+import Over from '../model/over';
 
 const printScore = (ball) => {
   let score;
@@ -34,18 +37,34 @@ const OverComponent = props => (
           <p>This Over: </p>
         </Row>
         <Row className="align-items-left">
-          <p>Bowler: {props.currentBowler ? props.currentBowler.name : ''}</p>
+          <p>Bowler: {props.currentBowler
+            && props.currentBowler.name}
+          </p>
         </Row>
       </Col>
       <Col className="sm-4 vertical-center">
         <Row className="justify-content-center">
-          <p>{props.currentOver.balls.map(ball => `${printScore(ball)}`)}</p>
+          <p>
+            {props.currentOver
+                  .balls
+                  .map(ball => `${printScore(ball)}`)}
+          </p>
         </Row>
       </Col>
       <Col className="sm-4" />
     </Row>
   </Container>
 );
+
+OverComponent.propTypes = {
+  currentBowler: PropTypes.instanceOf(Player),
+  currentOver: PropTypes.instanceOf(Over),
+};
+
+OverComponent.defaultProps = {
+  currentBowler: {},
+  currentOver: {},
+};
 
 const mapStateToProps = state => ({
   currentOver: state.over.currentOver,
