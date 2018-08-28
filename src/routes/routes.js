@@ -5,12 +5,14 @@ import Home from "../home/Home";
 import history from "./history";
 import {Route, Router, Switch} from "react-router-dom";
 import NewGame from "../newGame/NewGame";
+import {ExtrasConnectComponent} from "../scorer/Extras";
 
 export const Routes = {
   HOME:'/',
   SCORER:'/scorer',
   GAME_DETAILS:'/gameDetails',
   NEW_GAME:'/newGame',
+  EXTRAS :'/extras'
 };
 
 const AppRouter = () =>
@@ -20,6 +22,7 @@ const AppRouter = () =>
       <Route exact path={Routes.NEW_GAME} component={NewGame} />
       <Route exact path={Routes.SCORER} component={Scorer} />
       <Route path={Routes.GAME_DETAILS} component={GameDetails}/>
+      <Route exact path={Routes.EXTRAS} component={ExtrasConnectComponent}  />
     </Switch>
   </Router>;
 
