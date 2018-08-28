@@ -36,6 +36,4 @@ const ExtrasReducer = (state = initialState, action) => {
       return state;
   }
 };
-export {
-  ExtrasReducer, ACTION_WIDE, ACTION_NO_BALL, ACTION_BYE, ACTION_LEG_BYE,
-};
+export { ExtrasReducer, ACTION_WIDE, ACTION_NO_BALL, ACTION_BYE, ACTION_LEG_BYE };
