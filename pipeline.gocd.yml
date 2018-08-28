@@ -9,7 +9,7 @@ pipelines:
     group: team2
     materials:
       ui:
-        git: "https://github.com/vnsam/cricket-scorer-ui-nobackend.git"
+        git: "git@github.com:vnsam/cricket-scorer-ui-nobackend.git"
     stages:
       - test:
           jobs:
