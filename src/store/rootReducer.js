@@ -1,12 +1,12 @@
 import { combineReducers } from 'redux';
 import gameInformationReducer from '../newGame/reducer';
-import { ExtrasReducer } from './ExtrasReducer';
-import updateRunScoreReducer from './runScoreReducer';
+import { BallPlayedReducer } from './BallPlayedReducer';
+import { BallResultReducer } from './BallResultReducer';
 
 const rootReducer = combineReducers({
   gameInformation: gameInformationReducer,
-  runScore: updateRunScoreReducer,
-  extras: ExtrasReducer,
+  ballInput: BallPlayedReducer,
+  currentBallResult: BallResultReducer,
 });
 
 export default rootReducer;

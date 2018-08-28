@@ -1,26 +1,31 @@
-export const BALL_TYPE_REGULAR = 'R';
-export const BALL_TYPE_WIDE = 'WD';
-export const BALL_TYPE_NO_BALL = 'NB';
-export const BALL_TYPE_BYE = 'B';
-export const BALL_TYPE_LEG_BYE = 'LB';
-
-export const ACTION_BALL_PLAYED = {
-  type: 'BALL_PLAYED',
+const ACTION_BALL_PLAYED = {
+  type: 'ACTION_BALL_PLAYED',
 };
+
+const ACTION_EXTRAS = name => ({
+  type: 'EXTRAS',
+  data: name,
+});
+
+const ACTION_RUN = runs => ({
+  type: 'RUN',
+  data: runs,
+});
 
 const initialState = {
-  type: BALL_TYPE_REGULAR,
-  playerRuns: 0,
-  teamRuns: 0,
-  extraBall: 0,
-  out: false,
+  runSelected: -1,
+  extrasSelected: '',
 };
 
-export const BallPlayedReducer = (state = initialState, action) => {
+
+const BallPlayedReducer = (state = initialState, action) => {
   switch (action.type) {
-    case ACTION_BALL_PLAYED.type:
-      return state;
+    case 'EXTRAS':
+      return { ...state, extrasSelected: action.data };
+    case 'RUN':
+      return { ...state, runSelected: action.data };
     default:
       return state;
   }
 };
+export { BallPlayedReducer, ACTION_RUN, ACTION_EXTRAS, ACTION_BALL_PLAYED };

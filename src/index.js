@@ -11,6 +11,7 @@ const store = configureStore();
 const ProviderApp = () => (
   <Provider store={store}>
     <AppRouter />
+
   </Provider>
 );
 

@@ -1,5 +1,5 @@
 import Over from './over';
-import { BALL_TYPE_REGULAR, BALL_TYPE_WIDE, BALL_TYPE_NO_BALL } from '../store/BallPlayedReducer';
+import { BALL_TYPE_REGULAR, BALL_TYPE_WIDE, BALL_TYPE_NO_BALL } from '../store/BallResultReducer';
 
 describe('over', () => {
   function ball(type, playerRuns, teamRuns, extraBall, out) {

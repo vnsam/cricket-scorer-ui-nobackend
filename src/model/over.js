@@ -1,5 +1,5 @@
 
-import { BALL_TYPE_REGULAR } from '../store/BallPlayedReducer';
+import { BALL_TYPE_REGULAR } from '../store/BallResultReducer';
 
 export const BALLS_PER_OVER = 6;
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { BALL_TYPE_WIDE, BALL_TYPE_REGULAR } from '../store/BallPlayedReducer';
+import { BALL_TYPE_WIDE, BALL_TYPE_REGULAR } from '../store/BallResultReducer';
 
 class OverComponent extends React.Component {
   static printScore(ball) {

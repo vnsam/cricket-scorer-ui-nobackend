@@ -1,4 +1,4 @@
-import { BALL_TYPE_REGULAR, BALL_TYPE_WIDE, BALL_TYPE_NO_BALL, BALL_TYPE_BYE, BALL_TYPE_LEG_BYE } from '../store/BallPlayedReducer';
+import { BALL_TYPE_REGULAR, BALL_TYPE_WIDE, BALL_TYPE_NO_BALL, BALL_TYPE_BYE, BALL_TYPE_LEG_BYE } from '../store/BallResultReducer';
 import ConnectedOverComponent from './OverComponent';
 
 describe('printScore', () => {
