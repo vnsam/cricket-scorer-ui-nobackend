@@ -1,7 +1,7 @@
 class Player {
-    constructor(name) {
-        this.name = name;
-    }
+  constructor(name) {
+    this.name = name;
+  }
 }
 
 export default Player;

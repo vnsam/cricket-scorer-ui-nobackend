@@ -1,15 +1,13 @@
 class Over {
+  constructor(bowler) {
+    this.bowler = bowler;
+    this.balls = [];
+  }
 
-    balls = [];
-
-    constructor(bowler) {
-        this.bowler = bowler;
-    }
-
-    addBall = (ball) => {
-
-    };
-
+  addBall() {
+    this.balls = [];
+    // do nothing
+  }
 }
 
 export default Over;
