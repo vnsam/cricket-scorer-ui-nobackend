@@ -1,3 +1,4 @@
+import console from 'react';
 
 const initialState = {
   runScore: 0,
