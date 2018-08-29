@@ -8,6 +8,7 @@ import { BALL_TYPE_WIDE, BALL_TYPE_BYE, BALL_TYPE_NO_BALL, BALL_TYPE_LEG_BYE, WI
 import Player from '../model/player';
 import Over from '../model/over';
 import '../home/Home.css';
+import { ACTION_OVER_COMPLETE } from '../home/actions';
 
 export const printScore = (ball) => {
   if (ball.out) {
@@ -23,30 +24,19 @@ export const printScore = (ball) => {
     const runs = ball.teamRuns === 1 ? '' : ball.teamRuns - 1;
     score = `${ball.type}${runs}`;
   } else if (BALL_TYPE_BYE === ball.type || BALL_TYPE_LEG_BYE === ball.type) {
-    score = `${ball.type}${ball.teamRuns}`;
+    const type = ball.teamRuns === 0 ? '' : ball.type;
+    score = `${type}${ball.teamRuns}`;
   } else {
     score = ball.teamRuns;
   }
 
   return `${score} `;
+};
 
-  // let score = '';
-  // switch (ball.type) {
-  //   case BALL_TYPE_WIDE:
-  //   case BALL_TYPE_NO_BALL:
-  //     const runs = ball.playerRuns === 0 ? '' : ball.playerRuns;
-  //     score = `${ball.type}${runs}`;
-  //     break;
-  //   case BALL_TYPE_BYE:
-  //   case BALL_TYPE_LEG_BYE:
-  //     score = `${ball.type}${ball.playerRuns}`;
-  //     break;
-
-  //   default:
-  //     score = ball.type + ball.playerRuns;
-  //     break;
-  // }
-  // return `${score} `;
+export const checkForOverCompletion = (props) => {
+  if (props.currentOver.isComplete()) {
+    props.overComplete();
+  }
 };
 
 const OverComponent = props => (
@@ -66,6 +56,7 @@ const OverComponent = props => (
         Bowler: {props.currentBowler && props.currentBowler.name}
       </Col>
     </Row>
+    {checkForOverCompletion(props)}
   </Container>
 );
 
@@ -84,4 +75,8 @@ const mapStateToProps = state => ({
   currentBowler: state.over.currentBowler,
 });
 
-export const ConnectedOverComponent = connect(mapStateToProps)(OverComponent);
+const mapDispatchToProps = dispatch => ({
+  overComplete: () => dispatch(ACTION_OVER_COMPLETE()),
+});
+
+export const ConnectedOverComponent = connect(mapStateToProps, mapDispatchToProps)(OverComponent);

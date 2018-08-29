@@ -13,10 +13,14 @@ class Over {
     this.balls.push(ball);
   }
 
-  isComplete() {
+  getBalls() {
     const regularBalls = this.balls.reduce((accumulator, ball) => accumulator
     + (BALL_TYPE_REGULAR === ball.type ? 1 : 0), 0);
-    return BALLS_PER_OVER === regularBalls;
+    return regularBalls;
+  }
+
+  isComplete() {
+    return BALLS_PER_OVER === this.getBalls();
   }
 }
 

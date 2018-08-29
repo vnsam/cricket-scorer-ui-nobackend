@@ -21,9 +21,17 @@ describe('printScore', () => {
     result = printScore(ballOne);
     expect(result).toBe('Nb1 ');
 
+    ballOne = ball(BALL_TYPE_BYE, 0, 0, 0, false);
+    result = printScore(ballOne);
+    expect(result).toBe('0 ');
+
     ballOne = ball(BALL_TYPE_BYE, 0, 3, 0, false);
     result = printScore(ballOne);
     expect(result).toBe('B3 ');
+
+    ballOne = ball(BALL_TYPE_LEG_BYE, 0, 0, 0, false);
+    result = printScore(ballOne);
+    expect(result).toBe('0 ');
 
     ballOne = ball(BALL_TYPE_LEG_BYE, 0, 2, 0, false);
     result = printScore(ballOne);
