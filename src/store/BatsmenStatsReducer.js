@@ -1,11 +1,11 @@
 const initialState = {
-  currentBallResult: {
-    type: 'Regular',
-    playerRuns: 1,
-    teamRuns: 2,
-    extraBall: 0,
-    out: false,
-  },
+  // currentBallResult: {
+  //   type: 'Regular',
+  //   playerRuns: 1,
+  //   teamRuns: 2,
+  //   extraBall: 0,
+  //   out: false,
+  // },
   batsmenDetails: [
     {
       name: 'sachin',
@@ -44,19 +44,18 @@ const initialState = {
 
 export const ACTION_BALL_PLAYED = () => ({
   type: 'ACTION_BALL_PLAYED',
-
 });
 
-function calculateBatsmenStats(state, currentBatsmenDetails) {
+function calculateBatsmenStats(action, currentBatsmenDetails) {
   const batsmenStats = {};
   batsmenStats.name = currentBatsmenDetails.name;
-  batsmenStats.runs = currentBatsmenDetails.runs + state.currentBallResult.playerRuns;
+  batsmenStats.runs = currentBatsmenDetails.runs + action.ballResult.playerRuns;
   batsmenStats.balls = currentBatsmenDetails.balls + 1;
   batsmenStats.sixes = currentBatsmenDetails.sixes;
   batsmenStats.fours = currentBatsmenDetails.fours;
-  if (state.currentBallResult.playerRuns === 6) {
+  if (action.ballResult.playerRuns === 6) {
     batsmenStats.sixes = currentBatsmenDetails.sixes + 1;
-  } else if (state.currentBallResult.playerRuns >= 4) {
+  } else if (action.ballResult.playerRuns >= 4) {
     batsmenStats.fours = currentBatsmenDetails.fours + 1;
   }
   batsmenStats.strikeRate = Math.floor(((batsmenStats.runs / batsmenStats.balls) * 100));
@@ -65,16 +64,16 @@ function calculateBatsmenStats(state, currentBatsmenDetails) {
   return batsmenStats;
 }
 
-function addNewBatsmenToBatsmenStats(state) {
+function addNewBatsmenToBatsmenStats(state, action) {
   const batsmenStats = {};
   batsmenStats.name = state.currentPlayingBatsmen.onStrikeBatsmen.name;
-  batsmenStats.runs = state.currentBallResult.playerRuns;
+  batsmenStats.runs = action.ballResult.playerRuns;
   batsmenStats.balls = 1;
   batsmenStats.sixes = 0;
   batsmenStats.fours = 0;
-  if (state.currentBallResult.playerRuns === 6) {
+  if (action.ballResult.playerRuns === 6) {
     batsmenStats.sixes = 1;
-  } else if (state.currentBallResult.playerRuns >= 4) {
+  } else if (action.ballResult.playerRuns >= 4) {
     batsmenStats.fours = 1;
   }
   batsmenStats.strikeRate = Math.floor(((batsmenStats.runs / batsmenStats.balls) * 100));
@@ -105,8 +104,8 @@ export const batsmanReducer = (state = initialState, action) => {
       let currentBatsmenstats = null;
 
       const batsmanModifiedDetails = Object.assign([], state.batsmenDetails);
-      let batsmanModifiedDetailsWithAsterisk = [];
-      if (state.currentBallResult.type === 'Regular') {
+      let batsmanModifiedDetailsWithAsterisk = batsmanModifiedDetails;
+      if (action.ballResult.type.match(/Regular/i)) {
         let i;
         for (i = 0; i < batsmanModifiedDetails.length; i += 1) {
           const element = batsmanModifiedDetails[i];
@@ -115,7 +114,7 @@ export const batsmanReducer = (state = initialState, action) => {
             console.log('batsman name ', element.name);
             console.log('onstrike batsman name ', state.currentPlayingBatsmen.onStrikeBatsmen.name);
             console.log('from reducer: if is passing');
-            currentBatsmenstats = calculateBatsmenStats(state, element);
+            currentBatsmenstats = calculateBatsmenStats(action, element);
             batsmanModifiedDetails[i].name = currentBatsmenstats.name;
             batsmanModifiedDetails[i].balls = currentBatsmenstats.balls;
             batsmanModifiedDetails[i].runs = currentBatsmenstats.runs;
