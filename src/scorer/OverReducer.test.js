@@ -49,5 +49,4 @@ describe('over', () => {
     state = OverReducer(state, ACTION_OVER_COMPLETE());
     expect(state.completedOvers).toBe(2);
   });
-
 });

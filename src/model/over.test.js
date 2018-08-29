@@ -64,6 +64,5 @@ describe('over', () => {
 
     expect(over.getBalls()).toBe(0);
   });
-
 });
 
