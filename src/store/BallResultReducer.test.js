@@ -26,7 +26,7 @@ describe('BallResultReducer', () => {
       outSelected: false,
     };
     const updatedState = {
-      runSelected: '0',
+      runSelected: -1,
       extrasSelected: BALL_TYPE_WIDE,
       outSelected: false,
     };
@@ -45,6 +45,10 @@ describe('BallResultReducer', () => {
 
   it('should return the given selected run in action', () => {
     expect(BallResultReducer(undefined, ACTION_RUN('2')).runSelected).toEqual('2');
+  });
+
+  it('should toggle the run in action', () => {
+    expect(BallResultReducer(BallResultReducer(undefined, ACTION_RUN('2')), ACTION_RUN('2')).runSelected).toEqual(-1);
   });
 
   it('should return out on out', () => {

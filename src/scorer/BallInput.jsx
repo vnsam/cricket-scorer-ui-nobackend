@@ -9,6 +9,10 @@ import {
   BALL_TYPE_NO_BALL,
   BALL_TYPE_WIDE, evaluateBallResult, ACTION_OUT,
 } from '../store/BallResultReducer';
+import Row from 'reactstrap/lib/Row';
+import Col from 'reactstrap/lib/Col';
+import Container from 'reactstrap/lib/Container';
+import { printScore } from './OverComponent';
 
 const BallInput = (props) => {
   const renderARunButton = index => (<input
@@ -43,6 +47,19 @@ const BallInput = (props) => {
 
   return (
     <div>
+      <div>This Ball</div>
+      <Container className="h-10">
+        <Row>
+          <Col className="sm-2 vertical-center" />
+          <Col className="sm-4 vertical-center batsmen strike">
+            {props.currentPlayingBatsmen.onStrikeBatsmen.name}
+          </Col>
+          <Col className="sm-4 vertical-center batsmen">
+            {props.currentPlayingBatsmen.offStrikeBatsmen.name}
+          </Col>
+          <Col className="sm-2 vertical-center" />
+        </Row>
+      </Container>
       <div>
         {runButtons}
       </div>
@@ -76,6 +93,14 @@ const mapStateToProps = state => ({
   runSelected: state.currentBall.runSelected,
   extrasSelected: state.currentBall.extrasSelected,
   outSelected: state.currentBall.outSelected,
+  currentPlayingBatsmen: {
+    onStrikeBatsmen: {
+      name: 'Dravid',
+    },
+    offStrikeBatsmen: {
+      name: 'Sachin',
+    },
+  },
 });
 
 
@@ -85,7 +110,7 @@ const mapPropsToDispatcher = dispatch => ({
   toggleOut: () => dispatch(ACTION_OUT),
   onNextBall: (props) => {
     const data = {
-      runSelected: props.runSelected,
+      runSelected: props.runSelected === -1 ? 0 : props.runSelected,
       extrasSelected: props.extrasSelected,
       outSelected: props.outSelected,
     };
