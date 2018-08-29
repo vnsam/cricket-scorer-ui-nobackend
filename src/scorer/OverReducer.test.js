@@ -36,5 +36,4 @@ describe('over', () => {
     const modifiedState = OverReducer(undefined, ACTION_BALL_PLAYED(ballOne));
     expect(modifiedState.currentBowler.name).toBe('Bhuvaneshwar Kumar');
   });
-
 });
