@@ -1,11 +1,16 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { ACTION_EXTRAS, ACTION_RUN } from '../store/BallPlayedReducer';
 import './BallInput.css';
-import { BALL_TYPE_BYE, BALL_TYPE_LEG_BYE, BALL_TYPE_NO_BALL, BALL_TYPE_WIDE } from '../store/BallResultReducer';
+import {
+  ACTION_EXTRAS, ACTION_RUN,
+  ACTION_BALL_PLAYED,
+  BALL_TYPE_BYE,
+  BALL_TYPE_LEG_BYE,
+  BALL_TYPE_NO_BALL,
+  BALL_TYPE_WIDE, evaluateBallResult, ACTION_OUT,
+} from '../store/BallResultReducer';
 
 const BallInput = (props) => {
-  console.log(props.runSelected);
   const renderARunButton = index => (<input
     name={index}
     type="button"
@@ -34,17 +39,31 @@ const BallInput = (props) => {
     onClick={e => props.toggleExtra(e.target.name)}
   />);
 
+  const anySelected = props.extrasSelected || props.extrasSelected !== '' || props.runSelected !== -1 || props.outSelected;
+
   return (
     <div>
       <div>
         {runButtons}
       </div>
       <div>
-        {extraButtonNames.map(item => renderAnExtraButton(item.value, item.name))}
+        Extras : {extraButtonNames.map(item => renderAnExtraButton(item.value, item.name))}
       </div>
       <div>
-        <button onClick={(event) => {
-          props.onNextBall();
+        <input
+          name="out"
+          type="button"
+          className={props.outSelected ? 'selected' : ''}
+          value="Out"
+          onClick={e => props.toggleOut()}
+        />
+      </div>
+      <div>
+        <button
+          className="actionButton"
+          disabled={!anySelected}
+          onClick={(event) => {
+          props.onNextBall(props);
         }}
         >Next Ball
         </button>
@@ -54,15 +73,24 @@ const BallInput = (props) => {
 
 
 const mapStateToProps = state => ({
-  runSelected: state.ballInput.runSelected,
-  extrasSelected: state.ballInput.extrasSelected,
+  runSelected: state.currentBall.runSelected,
+  extrasSelected: state.currentBall.extrasSelected,
+  outSelected: state.currentBall.outSelected,
 });
 
 
 const mapPropsToDispatcher = dispatch => ({
   toggleExtra: name => dispatch(ACTION_EXTRAS(name)),
   toggleRun: runs => dispatch(ACTION_RUN(runs)),
-  onNextBall: () => (1),
+  toggleOut: () => dispatch(ACTION_OUT),
+  onNextBall: (props) => {
+    const data = {
+      runSelected: props.runSelected,
+      extrasSelected: props.extrasSelected,
+      outSelected: props.outSelected,
+    };
+    dispatch(ACTION_BALL_PLAYED(evaluateBallResult(data)));
+  },
 });
 
 export default connect(mapStateToProps, mapPropsToDispatcher)(BallInput);

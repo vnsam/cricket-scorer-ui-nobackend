@@ -7,11 +7,13 @@ import './Home.css';
 import { createGameAction } from './actions';
 
 import BallInput from '../scorer/BallInput';
+import { ConnectedOverComponent } from '../scorer/OverComponent';
 
 const Home = () => (
   <Container className="h-auto">
     <Row className="align-items-center w-500">
-      <Col className="text-center">
+      <Col className="text-left">
+        <ConnectedOverComponent />
         <BallInput />
       </Col>
     </Row>

@@ -1,3 +1,27 @@
+input[type=button], button {
+    background-color: #DADADA;
+    border: none;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    border-radius: 4px;
+}
+
 input.selected, button.selected{
-    background-color: aqua;
+    background-color: #4CAF50;
+}
+
+button.actionButton {
+    background-color: #f9ae05;
+    margin: 8px 4px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+button.actionButton[disabled] {
+    background-color: #DADADA;
 }

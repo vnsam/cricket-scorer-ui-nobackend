@@ -8,7 +8,7 @@ import { BALL_TYPE_WIDE, BALL_TYPE_REGULAR } from '../store/BallResultReducer';
 import Player from '../model/player';
 import Over from '../model/over';
 
-const printScore = (ball) => {
+export const printScore = (ball) => {
   let score;
   if (ball.out) {
     return 'W ';
@@ -71,5 +71,4 @@ const mapStateToProps = state => ({
   currentBowler: state.over.currentBowler,
 });
 
-const ConnectedOverComponent = connect(mapStateToProps)(OverComponent);
-export default ConnectedOverComponent;
+export const ConnectedOverComponent = connect(mapStateToProps)(OverComponent);
