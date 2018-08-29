@@ -30,4 +30,11 @@ describe('over', () => {
     modifiedState = OverReducer(modifiedState, ACTION_BALL_PLAYED(ballTwo));
     expect(JSON.stringify(modifiedState.currentOver)).toEqual(JSON.stringify(over));
   });
+
+  it('should default the bowler to "Bhuvaneshwar Kumar"', () => {
+    const ballOne = ball(BALL_TYPE_REGULAR, 3, 3, 0, false);
+    const modifiedState = OverReducer(undefined, ACTION_BALL_PLAYED(ballOne));
+    expect(modifiedState.currentBowler.name).toBe('Bhuvaneshwar Kumar');
+  });
+
 });

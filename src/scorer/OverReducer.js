@@ -3,6 +3,9 @@ import { ACTION_BALL_PLAYED } from '../store/BallResultReducer';
 
 const initialState = {
   currentOver: new Over(),
+  currentBowler: {
+    name: 'Bhuvaneshwar Kumar',
+  },
 };
 
 const overReducer = (state = initialState, action) => {
