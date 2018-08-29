@@ -121,7 +121,6 @@ describe('batsmanReducer', () => {
 describe('batsmanReducer', () => {
   it('current striking batsmen with asterisk', () => {
     const newStrikingBatsmanStat = {
-        
       batsmenDetails: [
         {
           name: 'sehwag',
