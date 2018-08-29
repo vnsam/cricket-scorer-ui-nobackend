@@ -1,13 +1,17 @@
-import { ACTION_BALL_PLAYED, batsmanReducer } from '../store/BatsmenStatsReducer';
+import batsmanReducer from '../store/BatsmenStatsReducer';
 
-const initialState = {
-  currentBallResult: {
+const ballPlayedAction = {
+  type: 'ACTION_BALL_PLAYED',
+  ballResult: {
     type: 'Regular',
     playerRuns: 1,
     teamRuns: 2,
     extraBall: 0,
-    out: false,
-  },
+    out: false
+  }
+};
+
+const initialState = {
   batsmenDetails: [
     {
       name: 'sehwag',
@@ -36,13 +40,6 @@ describe('batsmanReducer', () => {
 describe('batsmanReducer', () => {
   it('should return updated batsmenstat details interms of runs', () => {
     const updatedState = {
-      currentBallResult: {
-        type: 'Regular',
-        playerRuns: 1,
-        teamRuns: 2,
-        extraBall: 0,
-        out: false,
-      },
       batsmenDetails: [
         {
           name: 'sehwag*',
@@ -62,20 +59,14 @@ describe('batsmanReducer', () => {
         },
       },
     };
-    expect(batsmanReducer(initialState, ACTION_BALL_PLAYED())).toEqual(updatedState);
+
+    expect(batsmanReducer(initialState, ballPlayedAction)).toEqual(updatedState);
   });
 });
 
 describe('batsmanReducer', () => {
   it('should return two batsmens stats', () => {
     const newStrikingBatsmanStat = {
-      currentBallResult: {
-        type: 'Regular',
-        playerRuns: 1,
-        teamRuns: 2,
-        extraBall: 0,
-        out: false,
-      },
       batsmenDetails: [
         {
           name: 'sehwag',
@@ -96,13 +87,6 @@ describe('batsmanReducer', () => {
       },
     };
     const updatedState = {
-      currentBallResult: {
-        type: 'Regular',
-        playerRuns: 1,
-        teamRuns: 2,
-        extraBall: 0,
-        out: false,
-      },
       batsmenDetails: [
         {
           name: 'sehwag',
@@ -130,20 +114,14 @@ describe('batsmanReducer', () => {
         },
       },
     };
-    expect(batsmanReducer(newStrikingBatsmanStat, ACTION_BALL_PLAYED())).toEqual(updatedState);
+    expect(batsmanReducer(newStrikingBatsmanStat, ballPlayedAction)).toEqual(updatedState);
   });
 });
 
 describe('batsmanReducer', () => {
   it('current striking batsmen with asterisk', () => {
     const newStrikingBatsmanStat = {
-      currentBallResult: {
-        type: 'Regular',
-        playerRuns: 1,
-        teamRuns: 2,
-        extraBall: 0,
-        out: false,
-      },
+        
       batsmenDetails: [
         {
           name: 'sehwag',
@@ -164,13 +142,6 @@ describe('batsmanReducer', () => {
       },
     };
     const updatedState = {
-      currentBallResult: {
-        type: 'Regular',
-        playerRuns: 1,
-        teamRuns: 2,
-        extraBall: 0,
-        out: false,
-      },
       batsmenDetails: [
         {
           name: 'sehwag*',
@@ -198,6 +169,6 @@ describe('batsmanReducer', () => {
         },
       },
     };
-    expect(batsmanReducer(newStrikingBatsmanStat, ACTION_BALL_PLAYED())).toEqual(updatedState);
+    expect(batsmanReducer(newStrikingBatsmanStat, ballPlayedAction)).toEqual(updatedState);
   });
 });

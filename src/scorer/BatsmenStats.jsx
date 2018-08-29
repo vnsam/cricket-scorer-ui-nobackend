@@ -1,20 +1,13 @@
 import React from 'react';
 import { Table } from 'reactstrap';
 import { connect } from 'react-redux';
-import { ACTION_BALL_PLAYED } from '../store/BatsmenStatsReducer';
-
 
 const BatsmenStats = props => (
   <div>
     <Table striped>
       <thead>
         <tr>
-          <th onClick={() => {
-            console.log('table head clicked');
-            props.actionPlayed();
-          }}
-          >Batsman
-          </th>
+          <th >Batsma </th>
           <th>Runs</th>
           <th>Balls</th>
           <th>Fours</th>
@@ -50,10 +43,7 @@ const mapStateToBatsmenStats = (state) => {
   };
 };
 
-const mapDispatchAction = dispatch => ({
-  actionPlayed: () => dispatch(ACTION_BALL_PLAYED()),
-});
 
-const ConnectedBatsmenStats = connect(mapStateToBatsmenStats, mapDispatchAction)(BatsmenStats);
+const ConnectedBatsmenStats = connect(mapStateToBatsmenStats)(BatsmenStats);
 export default ConnectedBatsmenStats;
 

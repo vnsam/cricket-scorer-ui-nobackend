@@ -42,9 +42,6 @@ const initialState = {
   },
 };
 
-export const ACTION_BALL_PLAYED = () => ({
-  type: 'ACTION_BALL_PLAYED',
-});
 
 function calculateBatsmenStats(action, currentBatsmenDetails) {
   const batsmenStats = {};
@@ -98,7 +95,7 @@ function assignStarToCurrentlyPlayingBatsmen(state, batsmanModifiedDetails) {
   return batsmanModifiedDetailsWithAsterisk;
 }
 
-export const batsmanReducer = (state = initialState, action) => {
+const batsmanReducer = (state = initialState, action) => {
   switch (action.type) {
     case 'ACTION_BALL_PLAYED': {
       let currentBatsmenstats = null;
@@ -124,7 +121,7 @@ export const batsmanReducer = (state = initialState, action) => {
           }
         }
         if (currentBatsmenstats === null) {
-          batsmanModifiedDetails.push(addNewBatsmenToBatsmenStats(state));
+          batsmanModifiedDetails.push(addNewBatsmenToBatsmenStats(state, action));
           console.log('from reducer: else is passing');
         }
         console.log('from tempbatsmen');
@@ -138,4 +135,6 @@ export const batsmanReducer = (state = initialState, action) => {
       return state;
   }
 };
+
+export default batsmanReducer;
 
