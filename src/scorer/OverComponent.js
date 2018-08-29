@@ -7,6 +7,7 @@ import Col from 'reactstrap/lib/Col';
 import { BALL_TYPE_WIDE, BALL_TYPE_BYE, BALL_TYPE_NO_BALL, BALL_TYPE_LEG_BYE, WICKET } from '../store/BallResultReducer';
 import Player from '../model/player';
 import Over from '../model/over';
+import '../home/Home.css';
 
 export const printScore = (ball) => {
   if (ball.out) {
@@ -49,28 +50,21 @@ export const printScore = (ball) => {
 };
 
 const OverComponent = props => (
-  <Container className="h-10">
-    <Row>
-      <Col className="sm-4 vertical-center">
-        <Row className="align-items-left">
-          <p>This Over: </p>
-        </Row>
-        <Row className="align-items-left">
-          <p>Bowler: {props.currentBowler
-            && props.currentBowler.name}
-          </p>
-        </Row>
+  <Container>
+    <Row className="paddingTop-36px">
+      <Col sm={{ size: 'auto', offset: 1 }}>
+        This Over:
       </Col>
-      <Col className="sm-4 vertical-center">
-        <Row className="justify-content-center">
-          <p>
-            {props.currentOver
+      <Col sm={{ size: 'auto', offset: 1 }}>
+        {props.currentOver
                   .balls
                   .map(ball => `${printScore(ball)}`)}
-          </p>
-        </Row>
       </Col>
-      <Col className="sm-4" />
+    </Row>
+    <Row>
+      <Col sm={{ size: 'auto', offset: 1 }}>
+        Bowler: {props.currentBowler && props.currentBowler.name}
+      </Col>
     </Row>
   </Container>
 );

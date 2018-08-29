@@ -1,4 +1,5 @@
 import React from 'react';
+import { Row, Col, Container, Button, ButtonGroup } from 'reactstrap';
 import { connect } from 'react-redux';
 import './BallInput.css';
 import {
@@ -9,10 +10,6 @@ import {
   BALL_TYPE_NO_BALL,
   BALL_TYPE_WIDE, evaluateBallResult, ACTION_OUT,
 } from '../store/BallResultReducer';
-import Row from 'reactstrap/lib/Row';
-import Col from 'reactstrap/lib/Col';
-import Container from 'reactstrap/lib/Container';
-import { printScore } from './OverComponent';
 
 const BallInput = (props) => {
   const renderARunButton = index => (<input
@@ -47,17 +44,23 @@ const BallInput = (props) => {
 
   return (
     <div>
-      <div>This Ball</div>
-      <Container className="h-10">
+      <Container>
+        <Row className="paddingTop-36px">
+          <Col sm={{ size: 'auto', offset: 1 }}>
+            This Ball
+          </Col>
+        </Row>
         <Row>
-          <Col className="sm-2 vertical-center" />
-          <Col className="sm-4 vertical-center batsmen strike">
-            {props.currentPlayingBatsmen.onStrikeBatsmen.name}
+          <Col sm="12" md={{ size: 'auto', offset: 3 }}>
+            <Button>
+              {props.currentPlayingBatsmen.onStrikeBatsmen.name}
+            </Button>
           </Col>
-          <Col className="sm-4 vertical-center batsmen">
-            {props.currentPlayingBatsmen.offStrikeBatsmen.name}
+          <Col sm="12" md={{ size: 'auto', offset: 3 }}>
+            <Button>
+              {props.currentPlayingBatsmen.offStrikeBatsmen.name}
+            </Button>
           </Col>
-          <Col className="sm-2 vertical-center" />
         </Row>
       </Container>
       <div>

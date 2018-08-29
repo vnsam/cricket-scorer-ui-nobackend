@@ -1,32 +1,31 @@
 import React from 'react';
-import { Label } from 'reactstrap';
+import { Col, Row } from 'reactstrap';
 import { connect } from 'react-redux';
 import Container from 'reactstrap/lib/Container';
 import './CurrentScore.css';
+import '../home/Home.css';
 
 const CurrentScoreComponent = props =>
   (
-    <Container className="h-100">
-      <div className="clearfix current-score-bold">
-        <Label
-          className="float-left"
-        >
-          <b>{props.battingTeam.name}</b>
-        </Label>
-        <Label className="float-right">
-          <b>{props.battingTeam.runs}/{props.battingTeam.wickets}
-            in {props.battingTeam.overBowled}/{props.battingTeam.totalOvers}
-          </b>
-        </Label>
-      </div>
-
-      <div className="clearfix current-score">
-        <Label
-          className="float-left"
-        >
-          {props.bowlingTeam.name} scored {props.bowlingTeam.runs} in {props.bowlingTeam.overBowled} overs
-        </Label>
-      </div>
+    <Container>
+      <Row className="paddingTop-36px">
+        <Col
+          sm={{ size: 'auto', offset: 1 }}
+        ><b>{props.battingTeam.name}</b>
+        </Col>
+        <Col
+          sm={{ size: 'auto', offset: 1 }}
+        ><b>{props.battingTeam.runs}/{props.battingTeam.wickets}
+                &nbsp;&nbsp;&nbsp; in &nbsp;&nbsp;&nbsp;
+            {props.battingTeam.overBowled}/{props.battingTeam.totalOvers}</b>
+        </Col>
+      </Row>
+      <Row>
+        <Col sm={{ size: 'auto', offset: 1 }}>
+          {props.bowlingTeam.name} scored {props.bowlingTeam.runs} 
+          &nbsp; in {props.bowlingTeam.overBowled} overs
+        </Col>
+      </Row>
     </Container>);
 
 const mapStateAsPropsForConnectedCurrenScore = state => ({
