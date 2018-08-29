@@ -2,7 +2,7 @@ import React from 'react';
 
 const NewGame = () => (
   <div>
-    <p>dummy</p>
+    dummy
   </div>
 );
 
