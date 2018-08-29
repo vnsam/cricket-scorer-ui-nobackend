@@ -48,16 +48,15 @@ export const ACTION_BALL_PLAYED = () => ({
 });
 
 function calculateBatsmenStats(state, currentBatsmenDetails) {
-  const currentBallResult = state.currentBallResult;
   const batsmenStats = {};
   batsmenStats.name = currentBatsmenDetails.name;
-  batsmenStats.runs = currentBatsmenDetails.runs + currentBallResult.playerRuns;
+  batsmenStats.runs = currentBatsmenDetails.runs + state.currentBallResult.playerRuns;
   batsmenStats.balls = currentBatsmenDetails.balls + 1;
   batsmenStats.sixes = currentBatsmenDetails.sixes;
   batsmenStats.fours = currentBatsmenDetails.fours;
-  if (currentBallResult.playerRuns === 6) {
+  if (state.currentBallResult.playerRuns === 6) {
     batsmenStats.sixes = currentBatsmenDetails.sixes + 1;
-  } else if (currentBallResult.playerRuns >= 4) {
+  } else if (state.currentBallResult.playerRuns >= 4) {
     batsmenStats.fours = currentBatsmenDetails.fours + 1;
   }
   batsmenStats.strikeRate = Math.floor(((batsmenStats.runs / batsmenStats.balls) * 100));
@@ -83,52 +82,58 @@ function addNewBatsmenToBatsmenStats(state) {
 }
 
 
-function assignStarToCurrentlyPlayingBatsmen(state) {
-  state.batsmenDetails.forEach((element) => {
-    element.name = element.name.replace('*', '');
+function assignStarToCurrentlyPlayingBatsmen(state, batsmanModifiedDetails) {
+  const batsmanModifiedDetailsWithAsterisk = [];
+  batsmanModifiedDetails.forEach((element) => {
+    const modifiedElement = Object.assign({}, element);
+    modifiedElement.name = element.name.replace('*', '');
     if (element.name === state.currentPlayingBatsmen.onStrikeBatsmen.name ||
-        element.name === state.currentPlayingBatsmen.offStrikeBatsmen.name) {
-      element.name += '*';
+      element.name === state.currentPlayingBatsmen.offStrikeBatsmen.name) {
+      modifiedElement.name += '*';
     }
+    batsmanModifiedDetailsWithAsterisk.push(modifiedElement);
   });
 
   console.log('astric fun');
-  console.log(state);
-  return state;
+  console.log(batsmanModifiedDetailsWithAsterisk);
+  return batsmanModifiedDetailsWithAsterisk;
 }
 
 export const batsmanReducer = (state = initialState, action) => {
   switch (action.type) {
     case 'ACTION_BALL_PLAYED': {
       let currentBatsmenstats = null;
-      let stateTemp = state;
+
+      const batsmanModifiedDetails = Object.assign([], state.batsmenDetails);
+      let batsmanModifiedDetailsWithAsterisk = [];
       if (state.currentBallResult.type === 'Regular') {
         let i;
-        for (i = 0; i < state.batsmenDetails.length; i += 1) {
-          const element = state.batsmenDetails[i];
+        for (i = 0; i < batsmanModifiedDetails.length; i += 1) {
+          const element = batsmanModifiedDetails[i];
           element.name = element.name.replace('*', '');
-          if (element.name === stateTemp.currentPlayingBatsmen.onStrikeBatsmen.name) {
+          if (element.name === state.currentPlayingBatsmen.onStrikeBatsmen.name) {
             console.log('batsman name ', element.name);
-            console.log('onstrike batsman name ', stateTemp.currentPlayingBatsmen.onStrikeBatsmen.name);
+            console.log('onstrike batsman name ', state.currentPlayingBatsmen.onStrikeBatsmen.name);
             console.log('from reducer: if is passing');
-            currentBatsmenstats = calculateBatsmenStats(stateTemp, element);
-            state.batsmenDetails[i].name = currentBatsmenstats.name;
-            state.batsmenDetails[i].balls = currentBatsmenstats.balls;
-            state.batsmenDetails[i].runs = currentBatsmenstats.runs;
-            state.batsmenDetails[i].fours = currentBatsmenstats.fours;
-            state.batsmenDetails[i].sixes = currentBatsmenstats.sixes;
-            state.batsmenDetails[i].strikeRate = currentBatsmenstats.strikeRate;
+            currentBatsmenstats = calculateBatsmenStats(state, element);
+            batsmanModifiedDetails[i].name = currentBatsmenstats.name;
+            batsmanModifiedDetails[i].balls = currentBatsmenstats.balls;
+            batsmanModifiedDetails[i].runs = currentBatsmenstats.runs;
+            batsmanModifiedDetails[i].fours = currentBatsmenstats.fours;
+            batsmanModifiedDetails[i].sixes = currentBatsmenstats.sixes;
+            batsmanModifiedDetails[i].strikeRate = currentBatsmenstats.strikeRate;
           }
         }
         if (currentBatsmenstats === null) {
-          state.batsmenDetails.push(addNewBatsmenToBatsmenStats(stateTemp));
+          batsmanModifiedDetails.push(addNewBatsmenToBatsmenStats(state));
           console.log('from reducer: else is passing');
         }
         console.log('from tempbatsmen');
-        console.log(state.batsmenDetails);
-        stateTemp = assignStarToCurrentlyPlayingBatsmen(stateTemp);
+        console.log(batsmanModifiedDetails);
+        batsmanModifiedDetailsWithAsterisk =
+         assignStarToCurrentlyPlayingBatsmen(state, batsmanModifiedDetails);
       }
-      return { ...state, batsmenDetails: [...state.batsmenDetails] };
+      return { ...state, batsmenDetails: [...batsmanModifiedDetailsWithAsterisk] };
     }
     default:
       return state;
