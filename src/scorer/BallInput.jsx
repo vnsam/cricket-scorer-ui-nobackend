@@ -55,7 +55,7 @@ const BallInput = (props) => {
         </Row>
         <Row>
           <Col sm="12" md={{ size: 'auto', offset: 2 }}>
-            <Button outline size="lg" color="secondary" block>
+            <Button outline size="lg" color="secondary" block active>
               {props.currentPlayingBatsmen.onStrikeBatsmen.name}
             </Button>
           </Col>
