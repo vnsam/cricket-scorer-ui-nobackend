@@ -12,13 +12,15 @@ import {
 } from '../store/BallResultReducer';
 
 const BallInput = (props) => {
-  const renderARunButton = index => (<input
+  const renderARunButton = index => (<Button
+    size="lg"
     name={index}
-    type="button"
-    className={props.runSelected === index ? 'selected' : ''}
+    outline
+    color="success"
+    active={props.runSelected === index}
     value={index}
     onClick={e => props.toggleRun(e.target.name)}
-  />);
+  > { index }</Button>);
 
   const runButtons = [];
   for (let i = 0; i <= 7; i += 1) {
@@ -32,13 +34,14 @@ const BallInput = (props) => {
       { name: BALL_TYPE_BYE, value: BALL_TYPE_BYE },
       { name: BALL_TYPE_LEG_BYE, value: BALL_TYPE_LEG_BYE }];
 
-  const renderAnExtraButton = (name, key) => (<input
+  const renderAnExtraButton = (name, key) => (<Button
     name={key}
-    type="button"
-    className={props.extrasSelected === key ? 'selected' : ''}
-    value={name}
+    size="lg"
+    outline
+    color="warning"
+    active={props.extrasSelected === key}
     onClick={e => props.toggleExtra(e.target.name)}
-  />);
+  > { name } </Button>);
 
   const anySelected = props.extrasSelected || props.extrasSelected !== '' || props.runSelected !== -1 || props.outSelected;
 
@@ -51,43 +54,54 @@ const BallInput = (props) => {
           </Col>
         </Row>
         <Row>
-          <Col sm="12" md={{ size: 'auto', offset: 3 }}>
-            <Button>
+          <Col sm="12" md={{ size: 'auto', offset: 2 }}>
+            <Button outline size="lg" color="secondary" block>
               {props.currentPlayingBatsmen.onStrikeBatsmen.name}
             </Button>
           </Col>
-          <Col sm="12" md={{ size: 'auto', offset: 3 }}>
-            <Button>
+          <Col sm="12" md={{ size: 'auto', offset: 2 }}>
+            <Button outline size="lg" color="secondary" block>
               {props.currentPlayingBatsmen.offStrikeBatsmen.name}
             </Button>
           </Col>
         </Row>
+        <Row className="paddingTop-36px">
+          <Col sm={{ size: 'auto', offset: 1 }}>
+            {runButtons}
+          </Col>
+        </Row>
+        <Row className="paddingTop-24px">
+          <Col sm={{ size: 'auto', offset: 1 }}>
+            Extras : {extraButtonNames.map(item => renderAnExtraButton(item.value, item.name))}
+          </Col>
+        </Row>
+        <Row className="paddingTop-24px">
+          <Col sm={{ size: 'auto', offset: 1 }}>
+            <Button
+              name="out"
+              size="lg"
+              outline
+              color="danger"
+              active={props.outSelected}
+              onClick={props.toggleOut}
+            >Out
+            </Button>
+          </Col>
+        </Row>
+        <Row className="paddingTop-24px">
+          <Col sm={{ size: 'auto', offset: 4 }}>
+            <Button
+              name="actionButton"
+              size="lg"
+              outline
+              color="primary"
+              disabled={!anySelected}
+              onClick={() => props.onNextBall(props)}
+            >Next Ball
+            </Button>
+          </Col>
+        </Row>
       </Container>
-      <div>
-        {runButtons}
-      </div>
-      <div>
-        Extras : {extraButtonNames.map(item => renderAnExtraButton(item.value, item.name))}
-      </div>
-      <div>
-        <input
-          name="out"
-          type="button"
-          className={props.outSelected ? 'selected' : ''}
-          value="Out"
-          onClick={e => props.toggleOut()}
-        />
-      </div>
-      <div>
-        <button
-          className="actionButton"
-          disabled={!anySelected}
-          onClick={(event) => {
-          props.onNextBall(props);
-        }}
-        >Next Ball
-        </button>
-      </div>
     </div>);
 };
 
