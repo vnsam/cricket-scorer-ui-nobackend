@@ -5,6 +5,19 @@ import Container from 'reactstrap/lib/Container';
 import './CurrentScore.css';
 import '../home/Home.css';
 
+export const computeCurrentOvers = (props) => {
+  let currentOverBalls = 0;
+  let completedOversSoFar;
+
+  if (props.over) {
+    const { completedOvers, currentOver } = props.over;
+    currentOverBalls = currentOver.getBalls();
+    completedOversSoFar = completedOvers;
+  }
+
+  return `${completedOversSoFar}.${currentOverBalls}`;
+};
+
 const CurrentScoreComponent = props =>
   (
     <Container>
@@ -17,12 +30,13 @@ const CurrentScoreComponent = props =>
           sm={{ size: 'auto', offset: 1 }}
         ><b>{props.battingTeam.runs}/{props.battingTeam.wickets}
                 &nbsp;&nbsp;&nbsp; in &nbsp;&nbsp;&nbsp;
-            {props.battingTeam.overBowled}/{props.battingTeam.totalOvers}</b>
+          {computeCurrentOvers(props)}/{props.battingTeam.totalOvers}
+         </b>
         </Col>
       </Row>
       <Row>
         <Col sm={{ size: 'auto', offset: 1 }}>
-          {props.bowlingTeam.name} scored {props.bowlingTeam.runs} 
+          {props.bowlingTeam.name} scored {props.bowlingTeam.runs}
           &nbsp; in {props.bowlingTeam.overBowled} overs
         </Col>
       </Row>
@@ -31,6 +45,8 @@ const CurrentScoreComponent = props =>
 const mapStateAsPropsForConnectedCurrenScore = state => ({
   battingTeam: state.currentScoreReducer.battingTeam,
   bowlingTeam: state.currentScoreReducer.bowlingTeam,
+  over: state.over,
+  completedOvers: state.completedOvers,
 });
 const CurentScore = connect(mapStateAsPropsForConnectedCurrenScore)(CurrentScoreComponent);
 
