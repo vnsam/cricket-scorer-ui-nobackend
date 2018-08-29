@@ -4,29 +4,48 @@ import { connect } from 'react-redux';
 import Container from 'reactstrap/lib/Container';
 import Row from 'reactstrap/lib/Row';
 import Col from 'reactstrap/lib/Col';
-import { BALL_TYPE_WIDE, BALL_TYPE_REGULAR } from '../store/BallResultReducer';
+import { BALL_TYPE_WIDE, BALL_TYPE_BYE, BALL_TYPE_NO_BALL, BALL_TYPE_LEG_BYE, WICKET } from '../store/BallResultReducer';
 import Player from '../model/player';
 import Over from '../model/over';
 
 export const printScore = (ball) => {
-  let score;
   if (ball.out) {
-    return 'W ';
+    if (BALL_TYPE_WIDE === ball.type || BALL_TYPE_NO_BALL === ball.type) {
+      return `${WICKET}${ball.type} `;
+    }
+    const runs = ball.playerRuns === 0 ? '' : ball.playerRuns;
+    return `${WICKET}${runs} `;
   }
-  switch (ball.type) {
-    case BALL_TYPE_REGULAR:
-      score = ball.playerRuns;
-      break;
 
-    case BALL_TYPE_WIDE:
-      score = BALL_TYPE_WIDE;
-      break;
-
-    default:
-      score = ball.type + ball.playerRuns;
-      break;
+  let score = '';
+  if (BALL_TYPE_WIDE === ball.type || BALL_TYPE_NO_BALL === ball.type) {
+    const runs = ball.teamRuns === 1 ? '' : ball.teamRuns - 1;
+    score = `${ball.type}${runs}`;
+  } else if (BALL_TYPE_BYE === ball.type || BALL_TYPE_LEG_BYE === ball.type) {
+    score = `${ball.type}${ball.teamRuns}`;
+  } else {
+    score = ball.teamRuns;
   }
+
   return `${score} `;
+
+  // let score = '';
+  // switch (ball.type) {
+  //   case BALL_TYPE_WIDE:
+  //   case BALL_TYPE_NO_BALL:
+  //     const runs = ball.playerRuns === 0 ? '' : ball.playerRuns;
+  //     score = `${ball.type}${runs}`;
+  //     break;
+  //   case BALL_TYPE_BYE:
+  //   case BALL_TYPE_LEG_BYE:
+  //     score = `${ball.type}${ball.playerRuns}`;
+  //     break;
+
+  //   default:
+  //     score = ball.type + ball.playerRuns;
+  //     break;
+  // }
+  // return `${score} `;
 };
 
 const OverComponent = props => (

@@ -51,7 +51,7 @@ describe('currentScore', () => {
   it('should return total runs as 1 when ball played with teamRun 1 and playerRun 1', () => {
     expect(scoreReducer(
       mockBallPlayedData(0, 0),
-      mockBallPlayedAction(1, 1, false),
+      mockBallPlayedAction(2, 1, false),
     )).toEqual(mockBallPlayedData(2, 0));
   });
 

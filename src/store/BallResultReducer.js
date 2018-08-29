@@ -3,7 +3,7 @@ export const BALL_TYPE_WIDE = 'Wd';
 export const BALL_TYPE_NO_BALL = 'Nb';
 export const BALL_TYPE_BYE = 'B';
 export const BALL_TYPE_LEG_BYE = 'Lb';
-
+export const WICKET = 'W';
 
 export const ACTION_BALL_PLAYED = data => ({
   type: 'BALL_PLAYED',
@@ -47,8 +47,8 @@ export const evaluateBallResult = (ballInput) => {
         break;
       case BALL_TYPE_NO_BALL:
         ballResult.extraBall = 1;
-        ballResult.teamRuns = 1;
         ballResult.playerRuns = ballInput.runSelected;
+        ballResult.teamRuns = ballResult.playerRuns + ballResult.extraBall;
         break;
       case BALL_TYPE_BYE:
       case BALL_TYPE_LEG_BYE:
@@ -56,6 +56,7 @@ export const evaluateBallResult = (ballInput) => {
         break;
       default:
         ballResult.playerRuns = ballInput.runSelected ? ballInput.runSelected : 0;
+        ballResult.teamRuns = ballResult.playerRuns;
     }
   } else {
     ballResult.out = true;
