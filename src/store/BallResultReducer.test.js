@@ -192,5 +192,41 @@ describe('evaluateBallResult', () => {
 
     expect(evaluateBallResult(data)).toEqual(legByeState);
   });
+
+  it('should return 0 team run, 0 Player Run , 0 extra ball when player is out', () => {
+    const playerOutState = {
+      type: BALL_TYPE_REGULAR,
+      playerRuns: 0,
+      teamRuns: 0,
+      extraBall: 0,
+      out: true,
+    };
+
+    const data = {
+      runSelected: 0,
+      extrasSelected: '',
+      outSelected: true,
+    };
+
+    expect(evaluateBallResult(data)).toEqual(playerOutState);
+  });
+
+  it('should return 3 team run, 3 Player Run , 0 extra ball when player is out', () => {
+    const playerOutState = {
+      type: BALL_TYPE_REGULAR,
+      playerRuns: 3,
+      teamRuns: 3,
+      extraBall: 0,
+      out: true,
+    };
+
+    const data = {
+      runSelected: 3,
+      extrasSelected: '',
+      outSelected: true,
+    };
+
+    expect(evaluateBallResult(data)).toEqual(playerOutState);
+  });
 });
 

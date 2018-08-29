@@ -30,10 +30,10 @@ const BallInput = (props) => {
 
   const extraButtonNames =
     [
-      { name: BALL_TYPE_WIDE, value: 'W' },
-      { name: BALL_TYPE_NO_BALL, value: 'N' },
-      { name: BALL_TYPE_BYE, value: 'B' },
-      { name: BALL_TYPE_LEG_BYE, value: 'Lb' }];
+      { name: BALL_TYPE_WIDE, value: BALL_TYPE_WIDE },
+      { name: BALL_TYPE_NO_BALL, value: BALL_TYPE_NO_BALL },
+      { name: BALL_TYPE_BYE, value: BALL_TYPE_BYE },
+      { name: BALL_TYPE_LEG_BYE, value: BALL_TYPE_LEG_BYE }];
 
   const renderAnExtraButton = (name, key) => (<input
     name={key}
