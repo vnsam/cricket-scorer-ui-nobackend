@@ -76,7 +76,7 @@ export const BallResultReducer = (state = initialState, action) => {
       return { ...state, runSelected: action.data };
     case ACTION_OUT.type:
       return {
-        ...state, runSelected: 0, extrasSelected: '', outSelected: true,
+        ...state, outSelected: !state.outSelected,
       };
     case ACTION_BALL_PLAYED().type:
       return initialState;

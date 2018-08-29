@@ -6,7 +6,7 @@ import {
   ACTION_RUN,
   ACTION_EXTRAS,
   BallResultReducer,
-  evaluateBallResult, BALL_TYPE_REGULAR,
+  evaluateBallResult, BALL_TYPE_REGULAR, ACTION_OUT,
 } from './BallResultReducer';
 
 describe('BallResultReducer', () => {
@@ -45,6 +45,15 @@ describe('BallResultReducer', () => {
 
   it('should return the given selected run in action', () => {
     expect(BallResultReducer(undefined, ACTION_RUN('2')).runSelected).toEqual('2');
+  });
+
+  it('should return out on out', () => {
+    expect(BallResultReducer(undefined, ACTION_OUT).outSelected).toEqual(true);
+  });
+
+  it('should toggle  out', () => {
+    expect(BallResultReducer(BallResultReducer(undefined, ACTION_OUT), ACTION_OUT).outSelected)
+      .toEqual(false);
   });
 });
 
