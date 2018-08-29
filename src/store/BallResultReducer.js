@@ -17,7 +17,7 @@ export const ACTION_EXTRAS = name => ({
 
 export const ACTION_RUN = runs => ({
   type: 'RUN',
-  data: runs,
+  data: parseInt(runs, 10),
 });
 
 export const ACTION_OUT = {

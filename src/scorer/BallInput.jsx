@@ -25,7 +25,7 @@ const BallInput = (props) => {
 
   const runButtons = [];
   for (let i = 0; i <= 7; i += 1) {
-    runButtons.push(renderARunButton(i));
+    runButtons[runButtons.length] = renderARunButton(i);
   }
 
   const extraButtonNames =
