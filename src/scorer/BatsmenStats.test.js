@@ -7,8 +7,8 @@ const ballPlayedAction = {
     playerRuns: 1,
     teamRuns: 2,
     extraBall: 0,
-    out: false
-  }
+    out: false,
+  },
 };
 
 const initialState = {

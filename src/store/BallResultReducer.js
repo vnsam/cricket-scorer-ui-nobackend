@@ -17,7 +17,7 @@ export const ACTION_EXTRAS = name => ({
 
 export const ACTION_RUN = runs => ({
   type: 'RUN',
-  data: runs,
+  data: parseInt(runs, 10),
 });
 
 export const ACTION_OUT = {
@@ -70,10 +70,10 @@ export const BallResultReducer = (state = initialState, action) => {
       return {
         ...state,
         extrasSelected: action.data === state.extrasSelected ? '' : action.data,
-        runSelected: state.runSelected === -1 ? '0' : state.runSelected,
+        runSelected: state.runSelected,
       };
     case 'RUN':
-      return { ...state, runSelected: action.data };
+      return { ...state, runSelected: state.runSelected === action.data ? -1 : action.data };
     case ACTION_OUT.type:
       return {
         ...state, outSelected: !state.outSelected,
