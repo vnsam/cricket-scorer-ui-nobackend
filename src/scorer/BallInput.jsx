@@ -18,7 +18,7 @@ const BallInput = (props) => {
   const renderARunButton = index => (<input
     name={index}
     type="button"
-    className={props.runSelected === index.toString() ? 'selected' : ''}
+    className={props.runSelected === index ? 'selected' : ''}
     value={index}
     onClick={e => props.toggleRun(e.target.name)}
   />);
