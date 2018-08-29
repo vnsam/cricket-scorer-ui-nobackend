@@ -1,5 +1,5 @@
 import React from 'react';
-import { Row, Col, Container, Button, ButtonGroup } from 'reactstrap';
+import { Row, Col, Container, Button } from 'reactstrap';
 import { connect } from 'react-redux';
 import './BallInput.css';
 import {
@@ -20,7 +20,7 @@ const BallInput = (props) => {
     active={props.runSelected === index}
     value={index}
     onClick={e => props.toggleRun(e.target.name)}
-  > { index }</Button>);
+  > { index } </Button>);
 
   const runButtons = [];
   for (let i = 0; i <= 7; i += 1) {
@@ -49,34 +49,34 @@ const BallInput = (props) => {
     <div>
       <Container>
         <Row className="paddingTop-36px">
-          <Col sm={{ size: 'auto', offset: 1 }}>
+          <Col sm={{ size: 'auto' }}>
             This Ball
           </Col>
         </Row>
         <Row>
-          <Col sm="12" md={{ size: 'auto', offset: 2 }}>
+          <Col sm="6">
             <Button outline size="lg" color="secondary" block active>
               {props.currentPlayingBatsmen.onStrikeBatsmen.name}
             </Button>
           </Col>
-          <Col sm="12" md={{ size: 'auto', offset: 2 }}>
-            <Button outline size="lg" color="secondary" block>
+          <Col sm="6">
+            <Button outline size="lg" color="secondary" block disabled>
               {props.currentPlayingBatsmen.offStrikeBatsmen.name}
             </Button>
           </Col>
         </Row>
         <Row className="paddingTop-36px">
-          <Col sm={{ size: 'auto', offset: 1 }}>
+          <Col>
             {runButtons}
           </Col>
         </Row>
         <Row className="paddingTop-24px">
-          <Col sm={{ size: 'auto', offset: 1 }}>
+          <Col>
             Extras : {extraButtonNames.map(item => renderAnExtraButton(item.value, item.name))}
           </Col>
         </Row>
         <Row className="paddingTop-24px">
-          <Col sm={{ size: 'auto', offset: 1 }}>
+          <Col>
             <Button
               name="out"
               size="lg"
@@ -88,8 +88,8 @@ const BallInput = (props) => {
             </Button>
           </Col>
         </Row>
-        <Row className="paddingTop-24px">
-          <Col sm={{ size: 'auto', offset: 4 }}>
+        <Row className="paddingTop-24px text-center">
+          <Col>
             <Button
               name="actionButton"
               size="lg"

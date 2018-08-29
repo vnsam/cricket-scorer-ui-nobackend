@@ -9,7 +9,7 @@ import BallInput from '../scorer/BallInput';
 import { ConnectedOverComponent } from '../scorer/OverComponent';
 
 const Home = () => (
-  <Container>
+  <Container className="col-md-6 col-md-offset-3 main-content">
     <CurrentScore />
     <ConnectedOverComponent />
     <BallInput />

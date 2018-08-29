@@ -42,17 +42,17 @@ export const checkForOverCompletion = (props) => {
 const OverComponent = props => (
   <Container>
     <Row className="paddingTop-36px">
-      <Col sm={{ size: 'auto', offset: 1 }}>
+      <Col sm={{ size: 'auto' }}>
         This Over:
       </Col>
-      <Col sm={{ size: 'auto', offset: 1 }}>
+      <Col sm={{ size: 'auto' }}>
         {props.currentOver
                   .balls
                   .map(ball => `${printScore(ball)}`)}
       </Col>
     </Row>
     <Row>
-      <Col sm={{ size: 'auto', offset: 1 }}>
+      <Col sm={{ size: 'auto' }}>
         Bowler: {props.currentBowler && props.currentBowler.name}
       </Col>
     </Row>

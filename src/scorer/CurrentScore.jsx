@@ -23,11 +23,11 @@ const CurrentScoreComponent = props =>
     <Container>
       <Row className="paddingTop-36px">
         <Col
-          sm={{ size: 'auto', offset: 1 }}
+          sm={{ size: 'auto' }}
         ><b>{props.battingTeam.name}</b>
         </Col>
         <Col
-          sm={{ size: 'auto', offset: 1 }}
+          sm={{ size: 'auto' }}
         ><b>{props.battingTeam.runs}/{props.battingTeam.wickets}
                 &nbsp;&nbsp;&nbsp; in &nbsp;&nbsp;&nbsp;
           {computeCurrentOvers(props)}/{props.battingTeam.totalOvers}
@@ -35,7 +35,7 @@ const CurrentScoreComponent = props =>
         </Col>
       </Row>
       <Row>
-        <Col sm={{ size: 'auto', offset: 1 }}>
+        <Col sm={{ size: 'auto' }}>
           {props.bowlingTeam.name} scored {props.bowlingTeam.runs}
           &nbsp; in {props.bowlingTeam.overBowled} overs
         </Col>
