@@ -1,3 +1,5 @@
+import { ACTION_OVER_COMPLETE } from '../home/actions';
+
 export const BALL_TYPE_REGULAR = 'R';
 export const BALL_TYPE_WIDE = 'Wd';
 export const BALL_TYPE_NO_BALL = 'Nb';
@@ -26,32 +28,31 @@ export const ACTION_OUT = {
 
 export const gameState = {
   team1: [
-    { name: 'Rohit Sharma', out: false },
-    { name: 'Shikhar Dhawan', out: false },
-    { name: 'Virat Kohli', out: false },
-    { name: 'Ajinkya Rahane', out: false },
-    { name: 'Hardik Pandya', out: false },
-    { name: 'MS Dhoni', out: false },
-    { name: 'Kedar Jadhav', out: false },
-    { name: 'Bhuvaneshwar', out: false },
-    { name: 'Kuldeep Yadav', out: false },
-    { name: 'Jasprit Bumra', out: false },
-    { name: 'Chahal', out: false },
+    { name: 'Rohit Sharma', out: false, active: true },
+    { name: 'Shikhar Dhawan', out: false, active: false },
+    { name: 'Virat Kohli', out: false, active: false },
+    { name: 'Ajinkya Rahane', out: false, active: false },
+    { name: 'Hardik Pandya', out: false, active: false },
+    { name: 'MS Dhoni', out: false, active: false },
+    { name: 'Kedar Jadhav', out: false, active: false },
+    { name: 'Bhuvaneshwar', out: false, active: false },
+    { name: 'Kuldeep Yadav', out: false, active: false },
+    { name: 'Jasprit Bumra', out: false, active: false },
+    { name: 'Chahal', out: false, active: false },
   ],
   team2: [
-    { name: 'Stuart Broad', out: false },
-    { name: 'James Anderson', out: false },
-    { name: 'Moeen Ali', out: false },
-    { name: 'Adil Rashid', out: false },
-    { name: 'Sam Curran', out: false },
-    { name: 'Stuart Broad', out: false },
-    { name: 'James Anderson', out: false },
-    { name: 'Moeen Ali', out: false },
-    { name: 'Adil Rashid', out: false },
-    { name: 'Sam Curran', out: false },
-    { name: 'Stuart Broad', out: false },
+    { name: 'Stuart Broad', out: false, active: false },
+    { name: 'James Anderson', out: false, active: false },
+    { name: 'Moeen Ali', out: false, active: false },
+    { name: 'Adil Rashid', out: false, active: false },
+    { name: 'Sam Curran', out: false, active: false },
+    { name: 'Stuart Broad', out: false, active: false },
+    { name: 'James Anderson', out: false, active: false },
+    { name: 'Moeen Ali', out: false, active: false },
+    { name: 'Adil Rashid', out: false, active: false },
+    { name: 'Sam Curran', out: false, active: false },
+    { name: 'Stuart Broad', out: false, active: false },
   ],
-
 };
 
 const initialState = {
@@ -61,9 +62,11 @@ const initialState = {
   currentPlayingBatsmen: {
     onStrikeBatsman: {
       name: gameState.team1[0].name,
+      active: true,
     },
     offStrikeBatsman: {
       name: gameState.team1[1].name,
+      active: false,
     },
   },
 };
@@ -129,17 +132,57 @@ export const BallResultReducer = (state = initialState, action) => {
         ...state, outSelected: !state.outSelected,
       };
     case ACTION_BALL_PLAYED().type: {
+      //   console.log("ACTION_BALL_PLAYED");
+      //   console.log(action.data);
       const udpatedState = { ...initialState };
+      const { onStrikeBatsman, offStrikeBatsman } = state.currentPlayingBatsmen;
+      let outBatsman;
+      let inCreaseBatsman;
+      if (onStrikeBatsman.active) {
+        outBatsman = onStrikeBatsman.name;
+        inCreaseBatsman = offStrikeBatsman.name;
+      } else {
+        outBatsman = offStrikeBatsman.name;
+        inCreaseBatsman = onStrikeBatsman.name;
+      }
+
+      //  console.log("data");
+      //  console.log(action.data);
+
       if (action.data.out) {
         const udpatedGameState = markOutAndGetNextBatsman({
           players: gameState.team1,
-          outBatsmanName: action.data.onStrikeBatsman,
-          playingBatsmanName: state.currentPlayingBatsmen.offStrikeBatsman.name,
+          outBatsmanName: outBatsman,
+          playingBatsmanName: inCreaseBatsman,
         });
+
         gameState.team1 = udpatedGameState.players;
-        udpatedState.currentPlayingBatsmen.onStrikeBatsman.name = udpatedGameState.nextBatsman;
+        if (onStrikeBatsman.active) {
+          udpatedState.currentPlayingBatsmen.onStrikeBatsman.name = udpatedGameState.nextBatsman;
+        } else {
+          udpatedState.currentPlayingBatsmen.offStrikeBatsman.name = udpatedGameState.nextBatsman;
+        }
+      }
+
+      let runs = ((action.data.type === BALL_TYPE_WIDE)
+        || (action.data.type === BALL_TYPE_BYE)
+        || (action.data.type === BALL_TYPE_LEG_BYE)) ?
+        action.data.teamRuns : action.data.playerRuns;
+      runs = (action.data.type === BALL_TYPE_WIDE) ? runs - 1 : runs;
+      if (runs % 2 !== 0) {
+        udpatedState.currentPlayingBatsmen.onStrikeBatsman.active =
+          !udpatedState.currentPlayingBatsmen.onStrikeBatsman.active;
+        udpatedState.currentPlayingBatsmen.offStrikeBatsman.active =
+          !udpatedState.currentPlayingBatsmen.offStrikeBatsman.active;
       }
       return udpatedState;
+    }
+    case ACTION_OVER_COMPLETE().type:
+    {
+      const newState = state.currentPlayingBatsmen;
+      newState.onStrikeBatsman.active = !newState.onStrikeBatsman.active;
+      newState.offStrikeBatsman.active = !newState.offStrikeBatsman.active;
+      return { ...state, currentPlayingBatsmen: newState };
     }
     default:
       return state;
