@@ -13,6 +13,7 @@ import {
 
 const BallInput = (props) => {
   const renderARunButton = index => (<Button
+    className="ball-input"
     size="lg"
     name={index}
     outline
@@ -20,7 +21,8 @@ const BallInput = (props) => {
     active={props.runSelected === index}
     value={index}
     onClick={e => props.toggleRun(e.target.name)}
-  > { index } </Button>);
+  > { index } 
+                                     </Button>);
 
   const runButtons = [];
   for (let i = 0; i <= 7; i += 1) {
@@ -35,13 +37,15 @@ const BallInput = (props) => {
       { name: BALL_TYPE_LEG_BYE, value: BALL_TYPE_LEG_BYE }];
 
   const renderAnExtraButton = (name, key) => (<Button
+    className="ball-input"
     name={key}
     size="lg"
     outline
-    color="warning"
+    color="success"
     active={props.extrasSelected === key}
     onClick={e => props.toggleExtra(e.target.name)}
-  > { name } </Button>);
+  > { name } 
+                                              </Button>);
 
   const anySelected = props.extrasSelected || props.extrasSelected !== '' || props.runSelected !== -1 || props.outSelected;
 
@@ -54,16 +58,20 @@ const BallInput = (props) => {
           </Col>
         </Row>
         <Row>
-          <Col sm="6">
-            <Button outline size="lg" color="secondary" block active={ props.currentPlayingBatsmen.onStrikeBatsmen.active }>
+          <Col sm="1" className="no-padding" />
+          <Col sm="5" className="no-padding" >
+            <Button outline size="lg" color="secondary"
+              block active={props.currentPlayingBatsmen.onStrikeBatsmen.active}>
               {props.currentPlayingBatsmen.onStrikeBatsmen.name}
             </Button>
           </Col>
-          <Col sm="6">
-            <Button outline size="lg" color="secondary" block active={ props.currentPlayingBatsmen.offStrikeBatsmen.active }>
+          <Col sm="5" className="no-padding">
+            <Button outline size="lg" color="secondary"
+              block active={props.currentPlayingBatsmen.offStrikeBatsmen.active}>
               {props.currentPlayingBatsmen.offStrikeBatsmen.name}
             </Button>
           </Col>
+          <Col sm="1" className="no-padding" />
         </Row>
         <Row className="paddingTop-36px">
           <Col>
@@ -72,7 +80,10 @@ const BallInput = (props) => {
         </Row>
         <Row className="paddingTop-24px">
           <Col>
-            Extras : {extraButtonNames.map(item => renderAnExtraButton(item.value, item.name))}
+            <span className="ball-label">
+                Extras :
+            </span>
+            {extraButtonNames.map(item => renderAnExtraButton(item.value, item.name))}
           </Col>
         </Row>
         <Row className="paddingTop-24px">

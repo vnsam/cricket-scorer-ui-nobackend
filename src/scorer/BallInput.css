@@ -1,47 +1,13 @@
-input[type=button], button {
-    background-color: #DADADA;
-    border: none;
-    color: white;
-    padding: 20px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 4px 2px;
-    border-radius: 4px;
+.ball-input {
+    margin-right: 24px !important;
+    margin-bottom: 24px !important;
 }
 
-input.selected, button.selected{
-    background-color: #4CAF50;
+.ball-label {
+    margin-right: 24px !important;
 }
 
-button.actionButton {
-    background-color: #f9ae05;
-    margin: 8px 4px;
-    font-size: 20px;
-    font-weight: bold;
-}
-
-button.actionButton[disabled] {
-    background-color: #DADADA;
-}
-
-.batsmen{
-
-}
-
-div.batsmen {
-    width: 100%;
-    border: 1px groove grey;
-    padding: 10px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 4px 0px;
-    border-radius: 2px;
-}
-
-div.batsmen.strike {
-  background-color: burlywood;
+.no-padding {
+    padding: 0 !important;
+    margin: 0 !important;
 }

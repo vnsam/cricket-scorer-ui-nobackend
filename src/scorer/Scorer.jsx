@@ -6,8 +6,8 @@ import ConnectedBatsmenStats from './BatsmenStats';
 import { showGame } from '../home/actions';
 
 const Scorer = props => (
-  <Container className="col-md-6 col-md-offset-3 main-content">
-    <div className="float-right">
+  <Container className="col-md-4 col-md-offset-3 main-content">
+    <div className="float-right paddingTop-36px">
       <Button onClick={props.switchToStats}>Game</Button>
     </div>
     <CurrentScore />
