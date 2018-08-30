@@ -1,4 +1,4 @@
-import { BALL_TYPE_REGULAR } from '../store/BallResultReducer';
+import { BALL_TYPE_REGULAR, ACTION_BALL_PLAYED } from '../store/BallResultReducer';
 
 const initialState = {
   batsmenDetails: [
@@ -41,13 +41,13 @@ const initialState = {
 function calculateBatsmenStats(action, currentBatsmenDetails) {
   const batsmenStats = {};
   batsmenStats.name = currentBatsmenDetails.name;
-  batsmenStats.runs = currentBatsmenDetails.runs + action.ballResult.playerRuns;
+  batsmenStats.runs = currentBatsmenDetails.runs + action.data.playerRuns;
   batsmenStats.balls = currentBatsmenDetails.balls + 1;
   batsmenStats.sixes = currentBatsmenDetails.sixes;
   batsmenStats.fours = currentBatsmenDetails.fours;
-  if (action.ballResult.playerRuns === 6) {
+  if (action.data.playerRuns === 6) {
     batsmenStats.sixes = currentBatsmenDetails.sixes + 1;
-  } else if (action.ballResult.playerRuns >= 4) {
+  } else if (action.data.playerRuns >= 4) {
     batsmenStats.fours = currentBatsmenDetails.fours + 1;
   }
   batsmenStats.strikeRate = Math.floor(((batsmenStats.runs / batsmenStats.balls) * 100));
@@ -57,13 +57,13 @@ function calculateBatsmenStats(action, currentBatsmenDetails) {
 function addNewBatsmenToBatsmenStats(state, action) {
   const batsmenStats = {};
   batsmenStats.name = state.currentPlayingBatsmen.onStrikeBatsmen.name;
-  batsmenStats.runs = action.ballResult.playerRuns;
+  batsmenStats.runs = action.data.playerRuns;
   batsmenStats.balls = 1;
   batsmenStats.sixes = 0;
   batsmenStats.fours = 0;
-  if (action.ballResult.playerRuns === 6) {
+  if (action.data.playerRuns === 6) {
     batsmenStats.sixes = 1;
-  } else if (action.ballResult.playerRuns >= 4) {
+  } else if (action.data.playerRuns >= 4) {
     batsmenStats.fours = 1;
   }
   batsmenStats.strikeRate = Math.floor(((batsmenStats.runs / batsmenStats.balls) * 100));
@@ -110,10 +110,10 @@ function checkandUpdateCurrentBatsmanstats(state, action) {
 
 const batsmanReducer = (state = initialState, action) => {
   switch (action.type) {
-    case 'ACTION_BALL_PLAYED': {
+    case ACTION_BALL_PLAYED().type: {
       const batsmanModifiedDetails = Object.assign([], state.batsmenDetails);
       let batsmanModifiedDetailsWithAsterisk = batsmanModifiedDetails;
-      if (action.ballResult.type.match(BALL_TYPE_REGULAR)) {
+      if (action.data.type.match(BALL_TYPE_REGULAR)) {
         const currentBatsmenstats = checkandUpdateCurrentBatsmanstats(state, action);
         if (currentBatsmenstats === null) {
           batsmanModifiedDetails.push(addNewBatsmenToBatsmenStats(state, action));

@@ -1,15 +1,13 @@
-import batsmanReducer from '../store/BatsmenStatsReducer';
+import batsmanReducer from './BatsmenStatsReducer';
+import { ACTION_BALL_PLAYED } from './BallResultReducer';
 
-const ballPlayedAction = {
-  type: 'ACTION_BALL_PLAYED',
-  ballResult: {
-    type: 'Regular',
-    playerRuns: 1,
-    teamRuns: 2,
-    extraBall: 0,
-    out: false,
-  },
-};
+const ballPlayedAction = ACTION_BALL_PLAYED({
+  type: 'Regular',
+  playerRuns: 1,
+  teamRuns: 2,
+  extraBall: 0,
+  out: false,
+});
 
 const initialState = {
   batsmenDetails: [
