@@ -1,5 +1,5 @@
 import { ACTION_OVER_COMPLETE } from '../home/actions';
-import { ACTION_BALL_PLAYED } from './BallResultReducer';
+import { ACTION_BALL_PLAYED, BALL_TYPE_BYE, BALL_TYPE_LEG_BYE, BALL_TYPE_WIDE } from './BallResultReducer';
 
 const initialState = {
   currentPlayingBatsmen: {
@@ -30,7 +30,12 @@ const OnStrikeReducer = (state = initialState, action) => {
       //     newState.onStrikeBatsmen.name = 'Shewag';
       //     return { ...state, currentPlayingBatsmen: newState };
       // }
-      if (action.data.playerRuns % 2 !== 0) {
+      let runs = ((action.data.type === BALL_TYPE_WIDE)
+        || (action.data.type === BALL_TYPE_BYE)
+        || (action.data.type === BALL_TYPE_LEG_BYE)) ?
+        action.data.teamRuns : action.data.playerRuns;
+      runs = (action.data.type === BALL_TYPE_WIDE) ? runs - 1 : runs;
+      if (runs % 2 !== 0) {
         const newState = state.currentPlayingBatsmen;
         newState.onStrikeBatsmen.active = !newState.onStrikeBatsmen.active;
         newState.offStrikeBatsmen.active = !newState.offStrikeBatsmen.active;
