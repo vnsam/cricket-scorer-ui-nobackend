@@ -8,6 +8,7 @@ import history from './history';
 import NewGame from '../newGame/NewGame';
 import '../home/Home.css';
 
+
 export const Routes = {
   HOME: '/',
   SCORER: '/scorer',

@@ -140,6 +140,9 @@ const mapPropsToDispatcher = dispatch => ({
     ballResult.onStrikeBatsman = props.currentPlayingBatsmen.onStrikeBatsman.name;
     dispatch(ACTION_BALL_PLAYED(ballResult));
   },
+  toggleModal: () => {
+    console.log('model selcted');
+  },
 });
 
 export default connect(mapStateToProps, mapPropsToDispatcher)(BallInput);

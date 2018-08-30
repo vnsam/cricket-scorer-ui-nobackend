@@ -139,6 +139,7 @@ describe('BallResultReducer', () => {
   });
 });
 
+
 describe('evaluateBallResult', () => {
   it('should return initial state', () => {
     const defaultBall = {

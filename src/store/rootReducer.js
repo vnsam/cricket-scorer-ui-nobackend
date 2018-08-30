@@ -5,6 +5,7 @@ import batsmanReducer from './BatsmenStatsReducer';
 import OverReducer from '../scorer/OverReducer';
 import scoreReducer from '../scorer/CurrentScoreReducer';
 import OnStrikeReducer from '../store/OnStrikeChangeReducer';
+import { bowlerReducer } from './BowlerStatsReducer';
 
 const rootReducer = combineReducers({
   gameInformation: gameInformationReducer,
@@ -13,6 +14,7 @@ const rootReducer = combineReducers({
   batsmenStats: batsmanReducer,
   currentScoreReducer: scoreReducer,
   OnStrikeReducer,
+  bowlerStats: bowlerReducer,
 });
 
 export default rootReducer;
