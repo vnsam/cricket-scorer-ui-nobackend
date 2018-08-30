@@ -1,40 +1,7 @@
-import { BALL_TYPE_REGULAR, ACTION_BALL_PLAYED } from '../store/BallResultReducer';
+import { ACTION_BALL_PLAYED } from '../store/BallResultReducer';
 
 const initialState = {
-  batsmenDetails: [
-    {
-      name: 'sachin',
-      runs: 25,
-      balls: 15,
-      fours: 2,
-      sixes: 2,
-      strikeRate: 56,
-    },
-    {
-      name: 'sehwag',
-      runs: 25,
-      balls: 15,
-      fours: 4,
-      sixes: 4,
-      strikeRate: 56,
-    },
-    {
-      name: 'dravid',
-      runs: 16,
-      balls: 20,
-      fours: 9,
-      sixes: 6,
-      strikeRate: 56,
-    },
-  ],
-  currentPlayingBatsmen: {
-    onStrikeBatsmen: {
-      name: 'dravid',
-    },
-    offStrikeBatsmen: {
-      name: 'sachin',
-    },
-  },
+  batsmenDetails: [],
 };
 
 
@@ -56,7 +23,7 @@ function calculateBatsmenStats(action, currentBatsmenDetails) {
 
 function addNewBatsmenToBatsmenStats(state, action) {
   const batsmenStats = {};
-  batsmenStats.name = state.currentPlayingBatsmen.onStrikeBatsmen.name;
+  batsmenStats.name = action.data.onStrikeBatsman;
   batsmenStats.runs = action.data.playerRuns;
   batsmenStats.balls = 1;
   batsmenStats.sixes = 0;
@@ -71,13 +38,13 @@ function addNewBatsmenToBatsmenStats(state, action) {
 }
 
 
-function assignStarToCurrentlyPlayingBatsmen(state, batsmanModifiedDetails) {
+function assignStarToCurrentlyPlayingBatsmen(action, batsmanModifiedDetails) {
   const batsmanModifiedDetailsWithAsterisk = [];
   batsmanModifiedDetails.forEach((element) => {
     const modifiedElement = Object.assign({}, element);
     modifiedElement.name = element.name.replace('*', '');
-    if (element.name === state.currentPlayingBatsmen.onStrikeBatsmen.name ||
-      element.name === state.currentPlayingBatsmen.offStrikeBatsmen.name) {
+    if (element.name === action.data.onStrikeBatsman ||
+      element.name === action.data.offStrikeBatsman) {
       modifiedElement.name += '*';
     }
     batsmanModifiedDetailsWithAsterisk.push(modifiedElement);
@@ -93,7 +60,7 @@ function checkandUpdateCurrentBatsmanstats(state, action) {
   for (i = 0; i < batsmanModifiedDetails.length; i += 1) {
     const element = batsmanModifiedDetails[i];
     element.name = element.name.replace('*', '');
-    if (element.name === state.currentPlayingBatsmen.onStrikeBatsmen.name) {
+    if (element.name === action.data.onStrikeBatsman) {
       currentBatsmenstats = calculateBatsmenStats(action, element);
       batsmanModifiedDetails[i].name = currentBatsmenstats.name;
       batsmanModifiedDetails[i].balls = currentBatsmenstats.balls;
@@ -113,16 +80,12 @@ const batsmanReducer = (state = initialState, action) => {
     case ACTION_BALL_PLAYED().type: {
       const batsmanModifiedDetails = Object.assign([], state.batsmenDetails);
       let batsmanModifiedDetailsWithAsterisk = batsmanModifiedDetails;
-      if (action.data.type.match(BALL_TYPE_REGULAR)) {
-        const currentBatsmenstats = checkandUpdateCurrentBatsmanstats(state, action);
-        if (currentBatsmenstats === null) {
-          batsmanModifiedDetails.push(addNewBatsmenToBatsmenStats(state, action));
-        }
-
-        batsmanModifiedDetailsWithAsterisk =
-         assignStarToCurrentlyPlayingBatsmen(state, batsmanModifiedDetails);
+      const currentBatsmenstats = checkandUpdateCurrentBatsmanstats(state, action);
+      if (currentBatsmenstats === null) {
+        batsmanModifiedDetails.push(addNewBatsmenToBatsmenStats(state, action));
       }
-
+      batsmanModifiedDetailsWithAsterisk =
+         assignStarToCurrentlyPlayingBatsmen(action, batsmanModifiedDetails);
       return { ...state, batsmenDetails: [...batsmanModifiedDetailsWithAsterisk] };
     }
     default:

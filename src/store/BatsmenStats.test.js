@@ -1,33 +1,17 @@
 import batsmanReducer from './BatsmenStatsReducer';
 import { ACTION_BALL_PLAYED } from './BallResultReducer';
 
-const ballPlayedAction = ACTION_BALL_PLAYED({
+const ballPlayedData = {
   type: 'Regular',
   playerRuns: 1,
   teamRuns: 2,
   extraBall: 0,
   out: false,
-});
+};
+
 
 const initialState = {
-  batsmenDetails: [
-    {
-      name: 'sehwag',
-      runs: 25,
-      balls: 15,
-      fours: 2,
-      sixes: 2,
-      strikeRate: 56,
-    },
-  ],
-  currentPlayingBatsmen: {
-    onStrikeBatsmen: {
-      name: 'sehwag',
-    },
-    offStrikeBatsmen: {
-      name: 'dravid',
-    },
-  },
+  batsmenDetails: [],
 };
 describe('batsmanReducer', () => {
   it('should return initial state batsmenStatsDetails', () => {
@@ -41,24 +25,20 @@ describe('batsmanReducer', () => {
       batsmenDetails: [
         {
           name: 'sehwag*',
-          runs: 26,
-          balls: 16,
-          fours: 2,
-          sixes: 2,
-          strikeRate: 162,
+          runs: 1,
+          balls: 1,
+          fours: 0,
+          sixes: 0,
+          strikeRate: 100,
         },
       ],
-      currentPlayingBatsmen: {
-        onStrikeBatsmen: {
-          name: 'sehwag',
-        },
-        offStrikeBatsmen: {
-          name: 'dravid',
-        },
-      },
     };
 
-    expect(batsmanReducer(initialState, ballPlayedAction)).toEqual(updatedState);
+
+    ballPlayedData.onStrikeBatsman = 'sehwag';
+    ballPlayedData.offStrikeBatsman = 'dravid';
+
+    expect(batsmanReducer(initialState, ACTION_BALL_PLAYED(ballPlayedData))).toEqual(updatedState);
   });
 });
 
@@ -75,14 +55,6 @@ describe('batsmanReducer', () => {
           strikeRate: 56,
         },
       ],
-      currentPlayingBatsmen: {
-        onStrikeBatsmen: {
-          name: 'sachin',
-        },
-        offStrikeBatsmen: {
-          name: 'dravid',
-        },
-      },
     };
     const updatedState = {
       batsmenDetails: [
@@ -103,16 +75,14 @@ describe('batsmanReducer', () => {
           strikeRate: 100,
         },
       ],
-      currentPlayingBatsmen: {
-        onStrikeBatsmen: {
-          name: 'sachin',
-        },
-        offStrikeBatsmen: {
-          name: 'dravid',
-        },
-      },
     };
-    expect(batsmanReducer(newStrikingBatsmanStat, ballPlayedAction)).toEqual(updatedState);
+
+    ballPlayedData.onStrikeBatsman = 'sachin';
+    ballPlayedData.offStrikeBatsman = 'dravid';
+    expect(batsmanReducer(
+      newStrikingBatsmanStat,
+      ACTION_BALL_PLAYED(ballPlayedData),
+    )).toEqual(updatedState);
   });
 });
 
@@ -129,14 +99,6 @@ describe('batsmanReducer', () => {
           strikeRate: 56,
         },
       ],
-      currentPlayingBatsmen: {
-        onStrikeBatsmen: {
-          name: 'sachin',
-        },
-        offStrikeBatsmen: {
-          name: 'sehwag',
-        },
-      },
     };
     const updatedState = {
       batsmenDetails: [
@@ -157,15 +119,13 @@ describe('batsmanReducer', () => {
           strikeRate: 100,
         },
       ],
-      currentPlayingBatsmen: {
-        onStrikeBatsmen: {
-          name: 'sachin',
-        },
-        offStrikeBatsmen: {
-          name: 'sehwag',
-        },
-      },
     };
-    expect(batsmanReducer(newStrikingBatsmanStat, ballPlayedAction)).toEqual(updatedState);
+
+    ballPlayedData.onStrikeBatsman = 'sachin';
+    ballPlayedData.offStrikeBatsman = 'sehwag';
+    expect(batsmanReducer(
+      newStrikingBatsmanStat,
+      ACTION_BALL_PLAYED(ballPlayedData),
+    )).toEqual(updatedState);
   });
 });
