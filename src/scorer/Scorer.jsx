@@ -21,6 +21,7 @@ const Scorer = props => (
   </Container>
 );
 
+
 const mapDispatchToProps = dispatch => ({
   switchToStats: () => dispatch(showGame()),
 });
