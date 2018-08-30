@@ -74,11 +74,11 @@ describe('evaluateBallResult', () => {
     expect(evaluateBallResult({})).toEqual(defaultBall);
   });
 
-  it('should return 0 team run, 1 Player Run , 0 extra ball for 1 Run selected and No extra selected  ', () => {
+  it('should return 1 team run, 1 Player Run , 0 extra ball for 1 Run selected and No extra selected  ', () => {
     const regularBallState = {
       type: BALL_TYPE_REGULAR,
       playerRuns: 1,
-      teamRuns: 0,
+      teamRuns: 1,
       extraBall: 0,
       out: false,
     };
@@ -142,11 +142,11 @@ describe('evaluateBallResult', () => {
     expect(evaluateBallResult(data)).toEqual(noBallState);
   });
 
-  it('should return 1 team run, 4 Player Run , 1 extra ball for No Ball and 4 Run Selected ', () => {
+  it('should return 5 team run, 4 Player Run , 1 extra ball for No Ball and 4 Run Selected ', () => {
     const noBallState = {
       type: BALL_TYPE_NO_BALL,
       playerRuns: 4,
-      teamRuns: 1,
+      teamRuns: 5,
       extraBall: 1,
       out: false,
     };
@@ -191,6 +191,42 @@ describe('evaluateBallResult', () => {
     };
 
     expect(evaluateBallResult(data)).toEqual(legByeState);
+  });
+
+  it('should return 0 team run, 0 Player Run , 0 extra ball when player is out', () => {
+    const playerOutState = {
+      type: BALL_TYPE_REGULAR,
+      playerRuns: 0,
+      teamRuns: 0,
+      extraBall: 0,
+      out: true,
+    };
+
+    const data = {
+      runSelected: 0,
+      extrasSelected: '',
+      outSelected: true,
+    };
+
+    expect(evaluateBallResult(data)).toEqual(playerOutState);
+  });
+
+  it('should return 3 team run, 3 Player Run , 0 extra ball when player is out', () => {
+    const playerOutState = {
+      type: BALL_TYPE_REGULAR,
+      playerRuns: 3,
+      teamRuns: 3,
+      extraBall: 0,
+      out: true,
+    };
+
+    const data = {
+      runSelected: 3,
+      extrasSelected: '',
+      outSelected: true,
+    };
+
+    expect(evaluateBallResult(data)).toEqual(playerOutState);
   });
 });
 

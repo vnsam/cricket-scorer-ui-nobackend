@@ -6,6 +6,7 @@ import GameDetails from '../gameDetails/GameDetails';
 import Home from '../home/Home';
 import history from './history';
 import NewGame from '../newGame/NewGame';
+import '../home/Home.css';
 
 export const Routes = {
   HOME: '/',

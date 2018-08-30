@@ -8,3 +8,7 @@ export const createGameAction = () => (dispatch) => {
   history.push(Routes.NEW_GAME);
 };
 
+export const ACTION_OVER_COMPLETE = () => ({
+  type: 'OVER_COMPLETE',
+});
+

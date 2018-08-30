@@ -1,5 +1,5 @@
 
-import { BALL_TYPE_REGULAR } from '../store/BallResultReducer';
+import { BALL_TYPE_NO_BALL, BALL_TYPE_WIDE } from '../store/BallResultReducer';
 
 export const BALLS_PER_OVER = 6;
 
@@ -13,10 +13,14 @@ class Over {
     this.balls.push(ball);
   }
 
-  isComplete() {
+  getBalls() {
     const regularBalls = this.balls.reduce((accumulator, ball) => accumulator
-    + (BALL_TYPE_REGULAR === ball.type ? 1 : 0), 0);
-    return BALLS_PER_OVER === regularBalls;
+    + (((BALL_TYPE_NO_BALL === ball.type) || (BALL_TYPE_WIDE === ball.type)) ? 0 : 1), 0);
+    return regularBalls;
+  }
+
+  isComplete() {
+    return BALLS_PER_OVER === this.getBalls();
   }
 }
 

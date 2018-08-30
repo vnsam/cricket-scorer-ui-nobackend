@@ -5,3 +5,20 @@ html, body {
 #root {
     height: 100%
 }
+
+.main-content {
+    background: #ededed;
+    height: 100%
+}
+
+.padding-0_5rem {
+    padding: 0.5rem
+}
+
+.paddingTop-36px {
+    padding-top: 36px
+}
+
+.paddingTop-24px {
+    padding-top: 24px
+}

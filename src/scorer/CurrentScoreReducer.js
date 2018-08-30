@@ -20,7 +20,7 @@ const initialScoreState = {
 const evaluteInningsState = (battingTeam, action) => {
   const inningsData = {};
   inningsData.name = 'Team 1';
-  inningsData.runs = battingTeam.runs + action.data.teamRuns + action.data.playerRuns;
+  inningsData.runs = battingTeam.runs + action.data.teamRuns;
   inningsData.wickets = battingTeam.wickets + (action.data.out === true ? 1 : 0);
   inningsData.overBowled = 0;
   inningsData.totalOvers = 20;

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Row, Col, Container, Button } from 'reactstrap';
 import { connect } from 'react-redux';
 import './BallInput.css';
 import {
@@ -9,19 +10,17 @@ import {
   BALL_TYPE_NO_BALL,
   BALL_TYPE_WIDE, evaluateBallResult, ACTION_OUT,
 } from '../store/BallResultReducer';
-import Row from 'reactstrap/lib/Row';
-import Col from 'reactstrap/lib/Col';
-import Container from 'reactstrap/lib/Container';
-import { printScore } from './OverComponent';
 
 const BallInput = (props) => {
-  const renderARunButton = index => (<input
+  const renderARunButton = index => (<Button
+    size="lg"
     name={index}
-    type="button"
-    className={props.runSelected === index ? 'selected' : ''}
+    outline
+    color="success"
+    active={props.runSelected === index}
     value={index}
     onClick={e => props.toggleRun(e.target.name)}
-  />);
+  > { index } </Button>);
 
   const runButtons = [];
   for (let i = 0; i <= 7; i += 1) {
@@ -30,61 +29,79 @@ const BallInput = (props) => {
 
   const extraButtonNames =
     [
-      { name: BALL_TYPE_WIDE, value: 'W' },
-      { name: BALL_TYPE_NO_BALL, value: 'N' },
-      { name: BALL_TYPE_BYE, value: 'B' },
-      { name: BALL_TYPE_LEG_BYE, value: 'Lb' }];
+      { name: BALL_TYPE_WIDE, value: BALL_TYPE_WIDE },
+      { name: BALL_TYPE_NO_BALL, value: BALL_TYPE_NO_BALL },
+      { name: BALL_TYPE_BYE, value: BALL_TYPE_BYE },
+      { name: BALL_TYPE_LEG_BYE, value: BALL_TYPE_LEG_BYE }];
 
-  const renderAnExtraButton = (name, key) => (<input
+  const renderAnExtraButton = (name, key) => (<Button
     name={key}
-    type="button"
-    className={props.extrasSelected === key ? 'selected' : ''}
-    value={name}
+    size="lg"
+    outline
+    color="warning"
+    active={props.extrasSelected === key}
     onClick={e => props.toggleExtra(e.target.name)}
-  />);
+  > { name } </Button>);
 
   const anySelected = props.extrasSelected || props.extrasSelected !== '' || props.runSelected !== -1 || props.outSelected;
 
   return (
     <div>
-      <div>This Ball</div>
-      <Container className="h-10">
+      <Container>
+        <Row className="paddingTop-36px">
+          <Col sm={{ size: 'auto' }}>
+            This Ball
+          </Col>
+        </Row>
         <Row>
-          <Col className="sm-2 vertical-center" />
-          <Col className="sm-4 vertical-center batsmen strike">
-            {props.currentPlayingBatsmen.onStrikeBatsmen.name}
+          <Col sm="6">
+            <Button outline size="lg" color="secondary" block active>
+              {props.currentPlayingBatsmen.onStrikeBatsmen.name}
+            </Button>
           </Col>
-          <Col className="sm-4 vertical-center batsmen">
-            {props.currentPlayingBatsmen.offStrikeBatsmen.name}
+          <Col sm="6">
+            <Button outline size="lg" color="secondary" block disabled>
+              {props.currentPlayingBatsmen.offStrikeBatsmen.name}
+            </Button>
           </Col>
-          <Col className="sm-2 vertical-center" />
+        </Row>
+        <Row className="paddingTop-36px">
+          <Col>
+            {runButtons}
+          </Col>
+        </Row>
+        <Row className="paddingTop-24px">
+          <Col>
+            Extras : {extraButtonNames.map(item => renderAnExtraButton(item.value, item.name))}
+          </Col>
+        </Row>
+        <Row className="paddingTop-24px">
+          <Col>
+            <Button
+              name="out"
+              size="lg"
+              outline
+              color="danger"
+              active={props.outSelected}
+              onClick={props.toggleOut}
+            >Out
+            </Button>
+          </Col>
+        </Row>
+        <Row className="paddingTop-24px text-center">
+          <Col>
+            <Button
+              name="actionButton"
+              size="lg"
+              outline
+              color="primary"
+              disabled={!anySelected}
+              onClick={() => props.onNextBall(props)}
+            >Next Ball
+            </Button>
+          </Col>
         </Row>
       </Container>
-      <div>
-        {runButtons}
-      </div>
-      <div>
-        Extras : {extraButtonNames.map(item => renderAnExtraButton(item.value, item.name))}
-      </div>
-      <div>
-        <input
-          name="out"
-          type="button"
-          className={props.outSelected ? 'selected' : ''}
-          value="Out"
-          onClick={e => props.toggleOut()}
-        />
-      </div>
-      <div>
-        <button
-          className="actionButton"
-          disabled={!anySelected}
-          onClick={(event) => {
-          props.onNextBall(props);
-        }}
-        >Next Ball
-        </button>
-      </div>
     </div>);
 };
 

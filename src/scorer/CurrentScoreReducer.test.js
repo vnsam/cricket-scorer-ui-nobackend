@@ -51,14 +51,21 @@ describe('currentScore', () => {
   it('should return total runs as 1 when ball played with teamRun 1 and playerRun 1', () => {
     expect(scoreReducer(
       mockBallPlayedData(0, 0),
-      mockBallPlayedAction(1, 1, false),
+      mockBallPlayedAction(2, 1, false),
     )).toEqual(mockBallPlayedData(2, 0));
   });
 
-  it('should return total runs as 0 and wicket is 1 when ball played is bowled', () => {
+  it('should return total runs as 0 and wicket is 1 when ball played is bowled and playerRun is 0', () => {
     expect(scoreReducer(
       mockBallPlayedData(0, 0), // initial state
       mockBallPlayedAction(0, 0, true), // played action
     )).toEqual(mockBallPlayedData(0, 1)); // final state
+  });
+
+  it('should return total runs as 1 and wicket is 1 when ball played is bowled and playerRun is 1', () => {
+    expect(scoreReducer(
+      mockBallPlayedData(0, 0), // initial state
+      mockBallPlayedAction(1, 1, true), // played action
+    )).toEqual(mockBallPlayedData(1, 1)); // final state
   });
 });

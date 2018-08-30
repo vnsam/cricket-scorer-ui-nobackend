@@ -4,55 +4,59 @@ import { connect } from 'react-redux';
 import Container from 'reactstrap/lib/Container';
 import Row from 'reactstrap/lib/Row';
 import Col from 'reactstrap/lib/Col';
-import { BALL_TYPE_WIDE, BALL_TYPE_REGULAR } from '../store/BallResultReducer';
+import { BALL_TYPE_WIDE, BALL_TYPE_BYE, BALL_TYPE_NO_BALL, BALL_TYPE_LEG_BYE, WICKET } from '../store/BallResultReducer';
 import Player from '../model/player';
 import Over from '../model/over';
+import '../home/Home.css';
+import { ACTION_OVER_COMPLETE } from '../home/actions';
 
 export const printScore = (ball) => {
-  let score;
   if (ball.out) {
-    return 'W ';
+    if (BALL_TYPE_WIDE === ball.type || BALL_TYPE_NO_BALL === ball.type) {
+      return `${WICKET}${ball.type} `;
+    }
+    const runs = ball.playerRuns === 0 ? '' : ball.playerRuns;
+    return `${WICKET}${runs} `;
   }
-  switch (ball.type) {
-    case BALL_TYPE_REGULAR:
-      score = ball.playerRuns;
-      break;
 
-    case BALL_TYPE_WIDE:
-      score = BALL_TYPE_WIDE;
-      break;
-
-    default:
-      score = ball.type + ball.playerRuns;
-      break;
+  let score = '';
+  if (BALL_TYPE_WIDE === ball.type || BALL_TYPE_NO_BALL === ball.type) {
+    const runs = ball.teamRuns === 1 ? '' : ball.teamRuns - 1;
+    score = `${ball.type}${runs}`;
+  } else if (BALL_TYPE_BYE === ball.type || BALL_TYPE_LEG_BYE === ball.type) {
+    const type = ball.teamRuns === 0 ? '' : ball.type;
+    score = `${type}${ball.teamRuns}`;
+  } else {
+    score = ball.teamRuns;
   }
+
   return `${score} `;
 };
 
+export const checkForOverCompletion = (props) => {
+  if (props.currentOver.isComplete()) {
+    props.overComplete();
+  }
+};
+
 const OverComponent = props => (
-  <Container className="h-10">
-    <Row>
-      <Col className="sm-4 vertical-center">
-        <Row className="align-items-left">
-          <p>This Over: </p>
-        </Row>
-        <Row className="align-items-left">
-          <p>Bowler: {props.currentBowler
-            && props.currentBowler.name}
-          </p>
-        </Row>
+  <Container>
+    <Row className="paddingTop-36px">
+      <Col sm={{ size: 'auto' }}>
+        This Over:
       </Col>
-      <Col className="sm-4 vertical-center">
-        <Row className="justify-content-center">
-          <p>
-            {props.currentOver
+      <Col sm={{ size: 'auto' }}>
+        {props.currentOver
                   .balls
                   .map(ball => `${printScore(ball)}`)}
-          </p>
-        </Row>
       </Col>
-      <Col className="sm-4" />
     </Row>
+    <Row>
+      <Col sm={{ size: 'auto' }}>
+        Bowler: {props.currentBowler && props.currentBowler.name}
+      </Col>
+    </Row>
+    {checkForOverCompletion(props)}
   </Container>
 );
 
@@ -71,4 +75,8 @@ const mapStateToProps = state => ({
   currentBowler: state.over.currentBowler,
 });
 
-export const ConnectedOverComponent = connect(mapStateToProps)(OverComponent);
+const mapDispatchToProps = dispatch => ({
+  overComplete: () => dispatch(ACTION_OVER_COMPLETE()),
+});
+
+export const ConnectedOverComponent = connect(mapStateToProps, mapDispatchToProps)(OverComponent);
