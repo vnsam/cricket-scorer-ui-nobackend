@@ -6,7 +6,7 @@ import {
   ACTION_RUN,
   ACTION_EXTRAS,
   BallResultReducer,
-  evaluateBallResult, BALL_TYPE_REGULAR, ACTION_OUT,
+  evaluateBallResult, BALL_TYPE_REGULAR, ACTION_OUT, ACTION_BALL_PLAYED, gameState,
 } from './BallResultReducer';
 
 describe('BallResultReducer', () => {
@@ -16,7 +16,11 @@ describe('BallResultReducer', () => {
       extrasSelected: '',
       outSelected: false,
     };
-    expect(BallResultReducer(undefined, {})).toEqual(initialState);
+
+    const updatedState = BallResultReducer(undefined, {});
+    expect(updatedState.runSelected).toEqual(initialState.runSelected);
+    expect(updatedState.extrasSelected).toEqual(initialState.extrasSelected);
+    expect(updatedState.outSelected).toEqual(initialState.outSelected);
   });
 
   it('should return wide when wide is selected', () => {
@@ -25,15 +29,19 @@ describe('BallResultReducer', () => {
       extrasSelected: '',
       outSelected: false,
     };
-    const updatedState = {
+    const expectedState = {
       runSelected: -1,
       extrasSelected: BALL_TYPE_WIDE,
       outSelected: false,
     };
-    expect(BallResultReducer(
+
+    const result = BallResultReducer(
       initialState,
       ACTION_EXTRAS(BALL_TYPE_WIDE),
-    )).toEqual(updatedState);
+    );
+    expect(result.runSelected).toEqual(expectedState.runSelected);
+    expect(result.extrasSelected).toEqual(expectedState.extrasSelected);
+    expect(result.outSelected).toEqual(expectedState.outSelected);
   });
 
   it('should return no ball when noball is selected', () => {
@@ -58,6 +66,76 @@ describe('BallResultReducer', () => {
   it('should toggle  out', () => {
     expect(BallResultReducer(BallResultReducer(undefined, ACTION_OUT), ACTION_OUT).outSelected)
       .toEqual(false);
+  });
+
+  const getInitialStateWithPlayer = (player1, player2) => ({
+    runSelected: -1,
+    extrasSelected: '',
+    outSelected: false,
+    currentPlayingBatsmen: {
+      onStrikeBatsman: {
+        name: player1,
+      },
+      offStrikeBatsman: {
+        name: player2,
+      },
+    },
+
+  });
+
+  it('should not change player on next ball when not out', () => {
+    const defaultBall = {
+      type: BALL_TYPE_REGULAR,
+      playerRuns: 1,
+      teamRuns: 0,
+      extraBall: 0,
+      out: false,
+    };
+    const initialState = getInitialStateWithPlayer(
+      gameState.team1[0].name,
+      gameState.team1[1].name,
+    );
+    const result = BallResultReducer(undefined, ACTION_BALL_PLAYED(defaultBall));
+    expect(result.runSelected).toEqual(initialState.runSelected);
+    expect(result.extrasSelected).toEqual(initialState.extrasSelected);
+    expect(result.outSelected).toEqual(initialState.outSelected);
+    expect(result.currentPlayingBatsmen).toEqual(initialState.currentPlayingBatsmen);
+  });
+
+  it('should not change player on next ball when out', () => {
+    const defaultBall = {
+      type: BALL_TYPE_REGULAR,
+      playerRuns: 1,
+      teamRuns: 0,
+      extraBall: 0,
+      out: true,
+      onStrikeBatsman: gameState.team1[0].name,
+    };
+    const initialState = getInitialStateWithPlayer(
+      gameState.team1[2].name,
+      gameState.team1[1].name,
+    );
+    const result = BallResultReducer(undefined, ACTION_BALL_PLAYED(defaultBall));
+    expect(result.currentPlayingBatsmen).toEqual(initialState.currentPlayingBatsmen);
+  });
+
+  it('should change two players one after other on two wickets', () => {
+    const defaultBall = {
+      type: BALL_TYPE_REGULAR,
+      playerRuns: 1,
+      teamRuns: 0,
+      extraBall: 0,
+      out: true,
+      onStrikeBatsman: gameState.team1[0].name,
+    };
+    const initialState = getInitialStateWithPlayer(
+      gameState.team1[3].name,
+      gameState.team1[1].name,
+    );
+    let result = BallResultReducer(undefined, ACTION_BALL_PLAYED(defaultBall));
+    defaultBall.onStrikeBatsman = result.currentPlayingBatsmen.onStrikeBatsman;
+    result = BallResultReducer(result, ACTION_BALL_PLAYED(defaultBall));
+    expect(result.currentPlayingBatsmen).toEqual(initialState.currentPlayingBatsmen);
   });
 });
 
