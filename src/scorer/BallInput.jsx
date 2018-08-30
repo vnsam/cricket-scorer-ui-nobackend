@@ -139,7 +139,9 @@ const mapPropsToDispatcher = dispatch => ({
     const ballResult = evaluateBallResult(data);
     ballResult.onStrikeBatsman = props.currentPlayingBatsmen.onStrikeBatsman.name;
     ballResult.offStrikeBatsman = props.currentPlayingBatsmen.offStrikeBatsman.name;
-    ballResult.currentBowlingBowler = props.currentBowlingBowler.name;
+    ballResult.currentBowlingBowler = props.currentBowlingBowler;
+    console.log('from props')
+    console.log(ballResult.currentBowlingBowler)
     dispatch(ACTION_BALL_PLAYED(ballResult));
   },
   toggleModal: () => {
