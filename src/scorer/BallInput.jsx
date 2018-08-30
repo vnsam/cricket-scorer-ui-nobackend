@@ -45,7 +45,7 @@ const BallInput = (props) => {
     active={props.extrasSelected === key}
     onClick={e => props.toggleExtra(e.target.name)}
   > { name } 
-                                              </Button>);
+  </Button>);
 
   const anySelected = props.extrasSelected || props.extrasSelected !== '' || props.runSelected !== -1 || props.outSelected;
 
