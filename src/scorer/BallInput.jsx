@@ -145,7 +145,7 @@ const mapPropsToDispatcher = dispatch => ({
       ballResult.onStrikeBatsman = offStrikeBatsman.name;
       ballResult.offStrikeBatsman = onStrikeBatsman.name;
     }
-    ballResult.currentBowlingBowler = props.currentBowlingBowler.name;
+    ballResult.currentBowlingBowler = props.currentBowlingBowler;
     dispatch(ACTION_BALL_PLAYED(ballResult));
   },
 });
