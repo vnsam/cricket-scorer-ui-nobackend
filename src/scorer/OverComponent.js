@@ -53,7 +53,7 @@ const OverComponent = props => (
     </Row>
     <Row>
       <Col sm={{ size: 'auto' }}>
-        Bowler: {props.currentBowler && props.currentBowler.name}
+        Bowler: {props.currentBowler.name}
       </Col>
     </Row>
     {checkForOverCompletion(props)}
@@ -76,7 +76,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  overComplete: () => dispatch(ACTION_OVER_COMPLETE()),
+  overComplete: () => { dispatch(ACTION_OVER_COMPLETE()); },
 });
 
 export const ConnectedOverComponent = connect(mapStateToProps, mapDispatchToProps)(OverComponent);

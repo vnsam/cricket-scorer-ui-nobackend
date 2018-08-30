@@ -1,6 +1,11 @@
 import OverReducer from './OverReducer';
 import Over from '../model/over';
-import { BALL_TYPE_REGULAR, BALL_TYPE_WIDE, ACTION_BALL_PLAYED } from '../store/BallResultReducer';
+import {
+  BALL_TYPE_REGULAR,
+  BALL_TYPE_WIDE,
+  ACTION_BALL_PLAYED,
+  gameState,
+} from '../store/BallResultReducer';
 import { ACTION_OVER_COMPLETE } from '../home/actions';
 
 describe('over', () => {
@@ -31,10 +36,10 @@ describe('over', () => {
     expect(JSON.stringify(modifiedState.currentOver)).toEqual(JSON.stringify(over));
   });
 
-  it('should default the bowler to "Bhuvaneshwar Kumar"', () => {
+  it('should default the bowler to team2  first player', () => {
     const ballOne = ball(BALL_TYPE_REGULAR, 3, 3, 0, false);
     const modifiedState = OverReducer(undefined, ACTION_BALL_PLAYED(ballOne));
-    expect(modifiedState.currentBowler.name).toBe('Bhuvaneshwar Kumar');
+    expect(modifiedState.currentBowler.name).toBe(gameState.team2[0].name);
   });
 
   it('should reset the current over on ACTION_OVER_COMPLETE', () => {
@@ -48,5 +53,10 @@ describe('over', () => {
 
     state = OverReducer(state, ACTION_OVER_COMPLETE());
     expect(state.completedOvers).toBe(2);
+  });
+
+  it('should return next bowler from team 2', () => {
+    const modifiedState = OverReducer(undefined, ACTION_OVER_COMPLETE());
+    expect(modifiedState.currentBowler.name).toBe(gameState.team2[1].name);
   });
 });
