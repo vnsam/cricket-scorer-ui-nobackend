@@ -136,12 +136,15 @@ const mapPropsToDispatcher = dispatch => ({
       outSelected: props.outSelected,
     };
     const ballResult = evaluateBallResult(data);
-    ballResult.onStrikeBatsman = props.currentPlayingBatsmen.onStrikeBatsman.name;
-    ballResult.offStrikeBatsman = props.currentPlayingBatsmen.offStrikeBatsman.name;
+    const { onStrikeBatsman, offStrikeBatsman } = props.currentPlayingBatsmen;
+    if (onStrikeBatsman.active) {
+      ballResult.onStrikeBatsman = onStrikeBatsman.name;
+      ballResult.offStrikeBatsman = offStrikeBatsman.name;
+    } else {
+      ballResult.onStrikeBatsman = offStrikeBatsman.name;
+      ballResult.offStrikeBatsman = onStrikeBatsman.name;
+    }
     dispatch(ACTION_BALL_PLAYED(ballResult));
-  },
-  toggleModal: () => {
-    console.log('model selcted');
   },
 });
 
