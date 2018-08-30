@@ -61,14 +61,14 @@ const BallInput = (props) => {
           <Col sm="1" className="no-padding" />
           <Col sm="5" className="no-padding" >
             <Button outline size="lg" color="secondary"
-              block active={props.currentPlayingBatsmen.onStrikeBatsmen.active}>
-              {props.currentPlayingBatsmen.onStrikeBatsmen.name}
+              block active={props.currentPlayingBatsmen.onStrikeBatsman.active}>
+              {props.currentPlayingBatsmen.onStrikeBatsman.name}
             </Button>
           </Col>
           <Col sm="5" className="no-padding">
             <Button outline size="lg" color="secondary"
-              block active={props.currentPlayingBatsmen.offStrikeBatsmen.active}>
-              {props.currentPlayingBatsmen.offStrikeBatsmen.name}
+              block active={props.currentPlayingBatsmen.offStrikeBatsman.active}>
+              {props.currentPlayingBatsmen.offStrikeBatsman.name}
             </Button>
           </Col>
           <Col sm="1" className="no-padding" />
@@ -121,7 +121,8 @@ const mapStateToProps = state => ({
   runSelected: state.currentBall.runSelected,
   extrasSelected: state.currentBall.extrasSelected,
   outSelected: state.currentBall.outSelected,
-  currentPlayingBatsmen: state.OnStrikeReducer.currentPlayingBatsmen,
+  //currentPlayingBatsmen: state.OnStrikeReducer.currentPlayingBatsmen,
+  currentPlayingBatsmen: state.currentBall.currentPlayingBatsmen,
 });
 
 
@@ -135,7 +136,9 @@ const mapPropsToDispatcher = dispatch => ({
       extrasSelected: props.extrasSelected,
       outSelected: props.outSelected,
     };
-    dispatch(ACTION_BALL_PLAYED(evaluateBallResult(data)));
+    const ballResult = evaluateBallResult(data);
+    ballResult.onStrikeBatsman = props.currentPlayingBatsmen.onStrikeBatsman.name;
+    dispatch(ACTION_BALL_PLAYED(ballResult));
   },
 });
 

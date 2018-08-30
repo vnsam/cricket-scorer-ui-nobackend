@@ -24,10 +24,62 @@ export const ACTION_OUT = {
   type: 'OUT',
 };
 
+export const gameState = {
+  team1: [
+    { name: 'Player1.1', out: false },
+    { name: 'Player1.2', out: false },
+    { name: 'Player1.3', out: false },
+    { name: 'Player1.4', out: false },
+    { name: 'Player1.5', out: false },
+    { name: 'Player1.6', out: false },
+    { name: 'Player1.7', out: false },
+    { name: 'Player1.8', out: false },
+    { name: 'Player1.9', out: false },
+    { name: 'Player1.10', out: false },
+    { name: 'Player1.11', out: false },
+  ],
+  team2: [
+    { name: 'Player2.1', out: false },
+    { name: 'Player2.2', out: false },
+    { name: 'Player2.3', out: false },
+    { name: 'Player2.4', out: false },
+    { name: 'Player2.5', out: false },
+    { name: 'Player2.6', out: false },
+    { name: 'Player2.7', out: false },
+    { name: 'Player2.8', out: false },
+    { name: 'Player2.9', out: false },
+    { name: 'Player2.10', out: false },
+    { name: 'Player2.11', out: false },
+  ],
+
+};
+
 const initialState = {
   runSelected: -1,
   extrasSelected: '',
   outSelected: false,
+  currentPlayingBatsmen: {
+    onStrikeBatsman: {
+      name: gameState.team1[0].name,
+    },
+    offStrikeBatsman: {
+      name: gameState.team1[1].name,
+    },
+  },
+};
+
+const markOutAndGetNextBatsman = (teamState) => {
+  const result = { ...teamState };
+  for (let i = 0; i < teamState.players.length; i += 1) {
+    if (teamState.players[i].name === teamState.outBatsmanName) {
+      result.players[i].out = true;
+    }
+    if (!result.players[i].out && result.players[i].name !== teamState.playingBatsmanName) {
+      result.nextBatsman = result.players[i].name;
+      break;
+    }
+  }
+  return result;
 };
 
 export const evaluateBallResult = (ballInput) => {
@@ -76,9 +128,19 @@ export const BallResultReducer = (state = initialState, action) => {
       return {
         ...state, outSelected: !state.outSelected,
       };
-    case ACTION_BALL_PLAYED().type:
-      return initialState;
-
+    case ACTION_BALL_PLAYED().type: {
+      const udpatedState = { ...initialState };
+      if (action.data.out) {
+        const udpatedGameState = markOutAndGetNextBatsman({
+          players: gameState.team1,
+          outBatsmanName: action.data.onStrikeBatsman,
+          playingBatsmanName: state.currentPlayingBatsmen.offStrikeBatsman.name,
+        });
+        gameState.team1 = udpatedGameState.players;
+        udpatedState.currentPlayingBatsmen.onStrikeBatsman.name = udpatedGameState.nextBatsman;
+      }
+      return udpatedState;
+    }
     default:
       return state;
   }
