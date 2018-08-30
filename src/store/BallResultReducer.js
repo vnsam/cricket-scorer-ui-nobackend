@@ -78,6 +78,7 @@ export const BallResultReducer = (state = initialState, action) => {
       };
     case ACTION_BALL_PLAYED().type:
       return initialState;
+
     default:
       return state;
   }

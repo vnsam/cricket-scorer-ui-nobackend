@@ -55,12 +55,12 @@ const BallInput = (props) => {
         </Row>
         <Row>
           <Col sm="6">
-            <Button outline size="lg" color="secondary" block active>
+            <Button outline size="lg" color="secondary" block active={ props.currentPlayingBatsmen.onStrikeBatsmen.active }>
               {props.currentPlayingBatsmen.onStrikeBatsmen.name}
             </Button>
           </Col>
           <Col sm="6">
-            <Button outline size="lg" color="secondary" block disabled>
+            <Button outline size="lg" color="secondary" block active={ props.currentPlayingBatsmen.offStrikeBatsmen.active }>
               {props.currentPlayingBatsmen.offStrikeBatsmen.name}
             </Button>
           </Col>
@@ -110,14 +110,7 @@ const mapStateToProps = state => ({
   runSelected: state.currentBall.runSelected,
   extrasSelected: state.currentBall.extrasSelected,
   outSelected: state.currentBall.outSelected,
-  currentPlayingBatsmen: {
-    onStrikeBatsmen: {
-      name: 'Dravid',
-    },
-    offStrikeBatsmen: {
-      name: 'Sachin',
-    },
-  },
+  currentPlayingBatsmen: state.OnStrikeReducer.currentPlayingBatsmen,
 });
 
 

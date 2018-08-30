@@ -19,6 +19,8 @@ const overReducer = (state = initialState, action) => {
       return { ...state, currentOver: modifiedCurrentOver };
     }
     case ACTION_OVER_COMPLETE().type: {
+      console.log('ACTION_OVER_COMPLETE case...');
+      console.log(state.currentPlayingBatsmen);
       const currentOver = new Over();
       const completedOvers = state.completedOvers + 1;
       return { ...state, currentOver, completedOvers };
