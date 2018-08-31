@@ -7,7 +7,7 @@ const BatsmenStats = props => (
     <Table striped>
       <thead>
         <tr>
-          <th >Batsma </th>
+          <th >Batsman</th>
           <th>Runs</th>
           <th>Balls</th>
           <th>Fours</th>
