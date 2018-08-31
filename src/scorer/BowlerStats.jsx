@@ -1,7 +1,7 @@
 import React from 'react';
 import { Table } from 'reactstrap';
 import { connect } from 'react-redux';
-import { ACTION_BALL_PLAYED } from '../store/BowlerStatsReducer';
+import { ACTION_BALL_PLAYED } from '../store/BallResultReducer';
 
 
 const BowlerStats = props => (

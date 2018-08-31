@@ -122,6 +122,7 @@ const mapStateToProps = state => ({
   extrasSelected: state.currentBall.extrasSelected,
   outSelected: state.currentBall.outSelected,
   currentPlayingBatsmen: state.currentBall.currentPlayingBatsmen,
+  currentBowlingBowler: state.over.currentBowler.name,
 });
 
 
@@ -144,6 +145,7 @@ const mapPropsToDispatcher = dispatch => ({
       ballResult.onStrikeBatsman = offStrikeBatsman.name;
       ballResult.offStrikeBatsman = onStrikeBatsman.name;
     }
+    ballResult.currentBowlingBowler = props.currentBowlingBowler;
     dispatch(ACTION_BALL_PLAYED(ballResult));
   },
 });
