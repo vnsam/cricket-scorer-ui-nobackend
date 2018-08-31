@@ -34,12 +34,14 @@ const bowlerReducer = (state = initialState, action) => {
       console.log('from bowler stats reducer');
       console.log(action.data);
       const udpatedBowlerDetails = state.bowlerDetails;
+      let runsInThisOver = 0;
 
       if (action.data.currentBowlingBowler) {
         let didBowlerFound = false;
         state.bowlerDetails.forEach((element, index) => {
           if (element.name === action.data.currentBowlingBowler) {
             didBowlerFound = true;
+            runsInThisOver = state.runsInThisOver + action.data.teamRuns;
             if (action.data.type !== BALL_TYPE_WIDE && action.data.type !== BALL_TYPE_NO_BALL) {
               udpatedBowlerDetails[index].balls += 1;
             }
@@ -47,12 +49,12 @@ const bowlerReducer = (state = initialState, action) => {
             if (action.data.out) {
               udpatedBowlerDetails[index].wickets += 1;
             }
-            state.runsInThisOver += action.data.teamRuns;
-            if ((udpatedBowlerDetails[index].balls % 6) === 0) {
-              if (state.runsInThisOver === 0) {
+            if ((udpatedBowlerDetails[index].balls >= 6
+               && udpatedBowlerDetails[index].balls % 6) === 0) {
+              if (runsInThisOver === 0) {
                 udpatedBowlerDetails[index].maiden += 1;
               } else {
-                state.runsInThisOver = 0;
+                runsInThisOver = 0;
               }
             }
           }
@@ -62,7 +64,10 @@ const bowlerReducer = (state = initialState, action) => {
         }
       }
 
-      return { ...state, bowlerDetails: [...udpatedBowlerDetails] };
+      // return { ...state, bowlerDetails: [...udpatedBowlerDetails], runsInThisOver };
+      const updatedState = { ...state, bowlerDetails: [...udpatedBowlerDetails] };
+      updatedState.runsInThisOver = runsInThisOver;
+      return updatedState;
     }
     default:
       return state;

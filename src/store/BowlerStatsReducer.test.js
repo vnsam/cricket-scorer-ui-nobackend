@@ -64,6 +64,26 @@ describe('bowlerReducer', () => {
 
 describe('bowlerReducer', () => {
   it('should return state with same ball count incase of illegal delivery ', () => {
+    const initialIllegalState = {
+      bowlerDetails: [
+        {
+          name: 'Brettlee',
+          balls: 0,
+          maiden: 0,
+          runs: 0,
+          wickets: 0,
+        },
+        {
+          name: 'Bumrah',
+          balls: 0,
+          maiden: 0,
+          runs: 0,
+          wickets: 0,
+        },
+      ],
+      runsInThisOver: 0,
+    };
+
     const updatedState = {
       bowlerDetails: [
         {
@@ -75,7 +95,7 @@ describe('bowlerReducer', () => {
         },
         {
           name: 'Bumrah',
-          balls: 1,
+          balls: 0,
           maiden: 0,
           runs: 4,
           wickets: 0,
@@ -86,11 +106,11 @@ describe('bowlerReducer', () => {
     const illegalBallPlayedAction = ACTION_BALL_PLAYED({
       type: BALL_TYPE_WIDE,
       playerRuns: 1,
-      teamRuns: 2,
+      teamRuns: 4,
       extraBall: 0,
       out: false,
       currentBowlingBowler: 'Bumrah',
     });
-    expect(bowlerReducer(initialState, illegalBallPlayedAction)).toEqual(updatedState);
+    expect(bowlerReducer(initialIllegalState, illegalBallPlayedAction)).toEqual(updatedState);
   });
 });
