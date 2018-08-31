@@ -27,6 +27,7 @@ const initialState = {
       wickets: 0,
     },
   ],
+  runsInThisOver: 0,
 };
 
 
@@ -51,10 +52,11 @@ describe('bowlerReducer', () => {
           name: 'Bumrah',
           balls: 1,
           maiden: 0,
-          runs: 0,
+          runs: 2,
           wickets: 0,
         },
       ],
+      runsInThisOver: 2,
     };
     expect(bowlerReducer(initialState, ballPlayedAction)).toEqual(updatedState);
   });
@@ -73,12 +75,13 @@ describe('bowlerReducer', () => {
         },
         {
           name: 'Bumrah',
-          balls: 0,
+          balls: 1,
           maiden: 0,
-          runs: 0,
+          runs: 4,
           wickets: 0,
         },
       ],
+      runsInThisOver: 4,
     };
     const illegalBallPlayedAction = ACTION_BALL_PLAYED({
       type: BALL_TYPE_WIDE,
@@ -89,59 +92,5 @@ describe('bowlerReducer', () => {
       currentBowlingBowler: 'Bumrah',
     });
     expect(bowlerReducer(initialState, illegalBallPlayedAction)).toEqual(updatedState);
-  });
-});
-
-describe('bowlerReducer', () => {
-  it('current striking batsmen with asterisk', () => {
-    const newStrikingBatsmanStat = {
-      batsmenDetails: [
-        {
-          name: 'sehwag',
-          runs: 25,
-          balls: 15,
-          fours: 2,
-          sixes: 2,
-          strikeRate: 56,
-        },
-      ],
-      currentPlayingBatsmen: {
-        onStrikeBatsmen: {
-          name: 'sachin',
-        },
-        offStrikeBatsmen: {
-          name: 'sehwag',
-        },
-      },
-    };
-    const updatedState = {
-      batsmenDetails: [
-        {
-          name: 'sehwag*',
-          runs: 25,
-          balls: 15,
-          fours: 2,
-          sixes: 2,
-          strikeRate: 56,
-        },
-        {
-          name: 'sachin*',
-          runs: 1,
-          balls: 1,
-          fours: 0,
-          sixes: 0,
-          strikeRate: 100,
-        },
-      ],
-      currentPlayingBatsmen: {
-        onStrikeBatsmen: {
-          name: 'sachin',
-        },
-        offStrikeBatsmen: {
-          name: 'sehwag',
-        },
-      },
-    };
-    expect(bowlerReducer(newStrikingBatsmanStat, ballPlayedAction)).toEqual(updatedState);
   });
 });
